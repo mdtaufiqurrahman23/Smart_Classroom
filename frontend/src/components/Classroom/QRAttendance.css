@@ -1,0 +1,50 @@
+/* QR Scanner Styling */
+#qr-reader {
+    width: 100%;
+    min-height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#qr-reader video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+#qr-reader__camera_permission_required {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+#qr-reader__scan_region {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+#qr-reader__scan_region_video_container {
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#qr-reader__scan_region_video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#qr-reader__scan_region_highlight {
+    position: absolute;
+    display: none;
+}

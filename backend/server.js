@@ -6,6 +6,8 @@ require('dotenv').config();
 
 // Routes
 const authRoutes = require('./routes/auth');
+const classroomRoutes = require('./routes/classroomRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
 // ADD YOUR ROUTE IMPORT ABOVE THIS LINE
 
 const app = express();
@@ -30,6 +32,8 @@ app.use((req, res, next) => {
 
 // Register API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/classrooms', classroomRoutes);
+app.use('/api/attendance', attendanceRoutes);
 // ADD YOUR ROUTE REGISTRATION ABOVE THIS LINE
 
 // Health check route

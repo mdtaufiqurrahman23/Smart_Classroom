@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';  // To access classCode from URL params
+import QRAttendance from './QRAttendance';
+import AttendanceDashboard from '../Attendance/AttendanceDashboard';
 // ADD YOUR COMPONENT IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 const ClassroomPage = () => {
@@ -139,12 +141,34 @@ const ClassroomPage = () => {
                         gap: '16px',
                         width: '100%'
                     }}>
+                        <button className={`feature-tab-btn ${activeTab === 'qr' ? 'active' : ''}`} onClick={() => setActiveTab('qr')}>
+                            <span className="feature-tab-icon">📱</span>
+                            QR Code
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'attendance' ? 'active' : ''}`} onClick={() => setActiveTab('attendance')}>
+                            <span className="feature-tab-icon">✅</span>
+                            Attendance
+                        </button>
                         {/* ADD YOUR <button> BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                     </div>
                 </div>
 
                 {/* Tab Content */}
                 <div className="glass-card-lg">
+                    {activeTab === 'qr' && (
+                        <div className="flex flex-col items-center justify-center py-12">
+                            <QRAttendance classCode={classroom.classCode} userRole={userRole} onQRScanned={() => {
+                                if (attendanceDashboardRef.current) {
+                                    attendanceDashboardRef.current.refreshAttendance();
+                                }
+                            }} />
+                        </div>
+                    )}
+                    {activeTab === 'attendance' && (
+                        <div>
+                            <AttendanceDashboard ref={attendanceDashboardRef} classCode={classroom.classCode} />
+                        </div>
+                    )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                 </div>
             </div>
