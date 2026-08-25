@@ -4,6 +4,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';  // To access classCode from URL params
 import QRAttendance from './QRAttendance';
 import AttendanceDashboard from '../Attendance/AttendanceDashboard';
+import CreateAnnouncement from '../TeacherDashboard/Announcement/CreateAnnouncement';
+import ViewAnnouncements from '../TeacherDashboard/Announcement/ViewAnnouncements';
+import SendTextMessage from '../TeacherDashboard/Announcement/SendTextMessage';
+import ViewTextMessages from '../TeacherDashboard/Announcement/ViewTextMessages';
 // ADD YOUR COMPONENT IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 const ClassroomPage = () => {
@@ -149,6 +153,14 @@ const ClassroomPage = () => {
                             <span className="feature-tab-icon">✅</span>
                             Attendance
                         </button>
+                        <button className={`feature-tab-btn ${activeTab === 'announcement' ? 'active' : ''}`} onClick={() => setActiveTab('announcement')}>
+                            <span className="feature-tab-icon">📢</span>
+                            Announcement
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'text-message' ? 'active' : ''}`} onClick={() => setActiveTab('text-message')}>
+                            <span className="feature-tab-icon">💬</span>
+                            Messages
+                        </button>
                         {/* ADD YOUR <button> BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                     </div>
                 </div>
@@ -167,6 +179,32 @@ const ClassroomPage = () => {
                     {activeTab === 'attendance' && (
                         <div>
                             <AttendanceDashboard ref={attendanceDashboardRef} classCode={classroom.classCode} />
+                        </div>
+                    )}
+                    {activeTab === 'announcement' && (
+                        <div className="space-y-8">
+                            {userRole === 'teacher' && (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">📢 Create Announcement</h3>
+                                    <CreateAnnouncement classCode={classroom.classCode} onAnnouncementCreated={handleAnnouncementCreated} />
+                                </div>
+                            )}
+                            <div className={userRole === 'teacher' ? 'border-t border-white/20 pt-8' : ''}>
+                                <h3 className="text-2xl font-bold mb-6">📌 Recent Announcements</h3>
+                                <ViewAnnouncements ref={announcementsRef} classCode={classroom.classCode} userRole={userRole} />
+                            </div>
+                        </div>
+                    )}
+                    {activeTab === 'text-message' && (
+                        <div className="space-y-8">
+                            <div>
+                                <h3 className="text-2xl font-bold mb-6">💬 Send Message</h3>
+                                <SendTextMessage classCode={classroom.classCode} teacherId="teacher-id" onMessageSent={handleMessageSent} userRole={userRole} />
+                            </div>
+                            <div className="border-t border-white/20 pt-8">
+                                <h3 className="text-2xl font-bold mb-6">📬 Message History</h3>
+                                <ViewTextMessages ref={messagesRef} classCode={classroom.classCode} />
+                            </div>
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
