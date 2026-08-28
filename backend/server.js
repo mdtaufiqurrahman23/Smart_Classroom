@@ -10,6 +10,8 @@ const classroomRoutes = require('./routes/classroomRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const textMessageRoutes = require('./routes/textMessageRoutes');
+const assignmentRoutes = require('./routes/assignmentRoutes');
+const marksheetRoutes = require('./routes/marksheetRoutes');
 // ADD YOUR ROUTE IMPORT ABOVE THIS LINE
 
 const app = express();
@@ -38,6 +40,8 @@ app.use('/api/classrooms', classroomRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/text-messages', textMessageRoutes);
+app.use('/api/assignments', assignmentRoutes);
+app.use('/api/marksheets', marksheetRoutes);
 // ADD YOUR ROUTE REGISTRATION ABOVE THIS LINE
 
 // Health check route

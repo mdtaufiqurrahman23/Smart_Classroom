@@ -8,6 +8,9 @@ import CreateAnnouncement from '../TeacherDashboard/Announcement/CreateAnnouncem
 import ViewAnnouncements from '../TeacherDashboard/Announcement/ViewAnnouncements';
 import SendTextMessage from '../TeacherDashboard/Announcement/SendTextMessage';
 import ViewTextMessages from '../TeacherDashboard/Announcement/ViewTextMessages';
+import CreateAssignment from '../TeacherDashboard/Announcement/CreateAssignment';
+import ViewAssignments from '../TeacherDashboard/Announcement/ViewAssignments';
+import Gradesheet from '../TeacherDashboard/Announcement/Gradesheet';
 // ADD YOUR COMPONENT IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 const ClassroomPage = () => {
@@ -161,6 +164,14 @@ const ClassroomPage = () => {
                             <span className="feature-tab-icon">💬</span>
                             Messages
                         </button>
+                        <button className={`feature-tab-btn ${activeTab === 'assignment' ? 'active' : ''}`} onClick={() => setActiveTab('assignment')}>
+                            <span className="feature-tab-icon">✏️</span>
+                            Assignment
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'marksheet' ? 'active' : ''}`} onClick={() => setActiveTab('marksheet')}>
+                            <span className="feature-tab-icon">📊</span>
+                            Gradesheet
+                        </button>
                         {/* ADD YOUR <button> BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                     </div>
                 </div>
@@ -205,6 +216,25 @@ const ClassroomPage = () => {
                                 <h3 className="text-2xl font-bold mb-6">📬 Message History</h3>
                                 <ViewTextMessages ref={messagesRef} classCode={classroom.classCode} />
                             </div>
+                        </div>
+                    )}
+                    {activeTab === 'assignment' && (
+                        <div className="space-y-8">
+                            {userRole === 'teacher' && (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">✏️ Create Assignment</h3>
+                                    <CreateAssignment classCode={classroom.classCode} onAssignmentCreated={handleAssignmentCreated} />
+                                </div>
+                            )}
+                            <div className={userRole === 'teacher' ? 'border-t border-white/20 pt-8' : ''}>
+                                <h3 className="text-2xl font-bold mb-6">📚 View Assignments</h3>
+                                <ViewAssignments ref={assignmentsRef} classCode={classroom.classCode} userRole={userRole} />
+                            </div>
+                        </div>
+                    )}
+                    {activeTab === 'marksheet' && (
+                        <div className="space-y-8">
+                            <Gradesheet ref={marksheetRef} classCode={classroom.classCode} userRole={userRole} />
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
