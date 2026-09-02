@@ -12,6 +12,8 @@ const announcementRoutes = require('./routes/announcementRoutes');
 const textMessageRoutes = require('./routes/textMessageRoutes');
 const assignmentRoutes = require('./routes/assignmentRoutes');
 const marksheetRoutes = require('./routes/marksheetRoutes');
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
+const pollRoutes = require('./routes/pollRoutes');
 // ADD YOUR ROUTE IMPORT ABOVE THIS LINE
 
 const app = express();
@@ -42,6 +44,8 @@ app.use('/api/announcements', announcementRoutes);
 app.use('/api/text-messages', textMessageRoutes);
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/marksheets', marksheetRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/polls', pollRoutes);
 // ADD YOUR ROUTE REGISTRATION ABOVE THIS LINE
 
 // Health check route

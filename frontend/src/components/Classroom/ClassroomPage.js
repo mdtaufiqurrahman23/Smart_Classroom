@@ -11,6 +11,9 @@ import ViewTextMessages from '../TeacherDashboard/Announcement/ViewTextMessages'
 import CreateAssignment from '../TeacherDashboard/Announcement/CreateAssignment';
 import ViewAssignments from '../TeacherDashboard/Announcement/ViewAssignments';
 import Gradesheet from '../TeacherDashboard/Announcement/Gradesheet';
+import Leaderboard from '../TeacherDashboard/Announcement/Leaderboard';
+import CreatePoll from '../TeacherDashboard/Announcement/CreatePoll';
+import ViewPolls from '../TeacherDashboard/Announcement/ViewPolls';
 // ADD YOUR COMPONENT IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 const ClassroomPage = () => {
@@ -172,6 +175,14 @@ const ClassroomPage = () => {
                             <span className="feature-tab-icon">📊</span>
                             Gradesheet
                         </button>
+                        <button className={`feature-tab-btn ${activeTab === 'poll' ? 'active' : ''}`} onClick={() => setActiveTab('poll')}>
+                            <span className="feature-tab-icon">📊</span>
+                            Poll
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'leaderboard' ? 'active' : ''}`} onClick={() => setActiveTab('leaderboard')}>
+                            <span className="feature-tab-icon">🏆</span>
+                            Leaderboard
+                        </button>
                         {/* ADD YOUR <button> BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                     </div>
                 </div>
@@ -235,6 +246,27 @@ const ClassroomPage = () => {
                     {activeTab === 'marksheet' && (
                         <div className="space-y-8">
                             <Gradesheet ref={marksheetRef} classCode={classroom.classCode} userRole={userRole} />
+                        </div>
+                    )}
+                    {activeTab === 'poll' && (
+                        <div className="space-y-8">
+                            {userRole === 'teacher' && (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">📊 Create Poll</h3>
+                                    <CreatePoll classCode={classroom.classCode} onPollCreated={handlePollCreated} />
+                                </div>
+                            )}
+                            <div className={userRole === 'teacher' ? 'border-t border-white/20 pt-8' : ''}>
+                                <h3 className="text-2xl font-bold mb-6">📈 View Polls</h3>
+                                <ViewPolls ref={pollsRef} classCode={classroom.classCode} userRole={userRole} />
+                            </div>
+                        </div>
+                    )}
+                    {activeTab === 'leaderboard' && (
+                        <div>
+                            <h2 className="text-2xl font-bold mb-6">🏆 Leaderboard</h2>
+                            <p className="text-secondary mb-6">{userRole === 'teacher' ? 'Manage' : 'View'} student rankings</p>
+                            <Leaderboard classCode={classroom.classCode} userRole={userRole} />
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
