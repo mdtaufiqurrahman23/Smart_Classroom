@@ -14,6 +14,12 @@ const assignmentRoutes = require('./routes/assignmentRoutes');
 const marksheetRoutes = require('./routes/marksheetRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
 const pollRoutes = require('./routes/pollRoutes');
+const anonymousFeedbackRoutes = require('./routes/anonymousFeedbackRoutes');
+const leaveRequestRoutes = require('./routes/leaveRequestRoutes');
+const lessonPlanRoutes = require('./routes/lessonPlanRoutes');
+const topicWiseQnARoutes = require('./routes/topicWiseQnARoutes');
+const topicWiseQuizRoutes = require('./routes/topicWiseQuizRoutes');
+const resourceRoutes = require('./routes/resourceRoutes');
 // ADD YOUR ROUTE IMPORT ABOVE THIS LINE
 
 const app = express();
@@ -46,6 +52,23 @@ app.use('/api/assignments', assignmentRoutes);
 app.use('/api/marksheets', marksheetRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/polls', pollRoutes);
+
+// Module 2 Communication
+app.use('/api/feedback', anonymousFeedbackRoutes);
+app.use('/api/anonymous-feedback', anonymousFeedbackRoutes);
+app.use('/api/leave-requests', leaveRequestRoutes);
+app.use('/api/leave-request', leaveRequestRoutes);
+
+// Module 3 Academics
+app.use('/api/lesson-plans', lessonPlanRoutes);
+app.use('/api/lesson-plan', lessonPlanRoutes);
+app.use('/api/topicwise-qna', topicWiseQnARoutes);
+app.use('/api/topic-wise-qna', topicWiseQnARoutes);
+app.use('/api/topicwise-quiz', topicWiseQuizRoutes);
+app.use('/api/topic-wise-quiz', topicWiseQuizRoutes);
+
+// Module 4 Engagement & Resources
+app.use('/api/resources', resourceRoutes);
 // ADD YOUR ROUTE REGISTRATION ABOVE THIS LINE
 
 // Health check route
