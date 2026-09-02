@@ -11,6 +11,15 @@ import ViewTextMessages from '../TeacherDashboard/Announcement/ViewTextMessages'
 import CreateAssignment from '../TeacherDashboard/Announcement/CreateAssignment';
 import ViewAssignments from '../TeacherDashboard/Announcement/ViewAssignments';
 import Gradesheet from '../TeacherDashboard/Announcement/Gradesheet';
+import LessonPlanCalendar from '../LessonPlanCalendar';
+import TopicWiseQnA from '../TopicWiseQnA';
+import TopicWiseQuiz from '../TopicWiseQuiz';
+import ViewStudentResources from '../ViewStudentResources';
+import ResourceUpload from '../ResourceUpload';
+import ViewFeedback from '../TeacherDashboard/Announcement/ViewFeedback';
+import SubmitFeedback from '../SubmitFeedback';
+import LeaveRequests from '../TeacherDashboard/Announcement/LeaveRequests';
+import LeaveRequestForm from '../LeaveRequestForm';
 // ADD YOUR COMPONENT IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 const ClassroomPage = () => {
@@ -172,6 +181,30 @@ const ClassroomPage = () => {
                             <span className="feature-tab-icon">📊</span>
                             Gradesheet
                         </button>
+                        <button className={`feature-tab-btn ${activeTab === 'feedback' ? 'active' : ''}`} onClick={() => setActiveTab('feedback')}>
+                            <span className="feature-tab-icon">💡</span>
+                            Feedback
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'leave-requests' ? 'active' : ''}`} onClick={() => setActiveTab('leave-requests')}>
+                            <span className="feature-tab-icon">📋</span>
+                            Leaves
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'lesson-plan' ? 'active' : ''}`} onClick={() => setActiveTab('lesson-plan')}>
+                            <span className="feature-tab-icon">📅</span>
+                            Lesson Plan
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'qna' ? 'active' : ''}`} onClick={() => setActiveTab('qna')}>
+                            <span className="feature-tab-icon">❓</span>
+                            Topic Q&A
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'quiz' ? 'active' : ''}`} onClick={() => setActiveTab('quiz')}>
+                            <span className="feature-tab-icon">🧩</span>
+                            Topic Quiz
+                        </button>
+                        <button className={`feature-tab-btn ${activeTab === 'resources' ? 'active' : ''}`} onClick={() => setActiveTab('resources')}>
+                            <span className="feature-tab-icon">📁</span>
+                            Resources
+                        </button>
                         {/* ADD YOUR <button> BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                     </div>
                 </div>
@@ -235,6 +268,65 @@ const ClassroomPage = () => {
                     {activeTab === 'marksheet' && (
                         <div className="space-y-8">
                             <Gradesheet ref={marksheetRef} classCode={classroom.classCode} userRole={userRole} />
+                        </div>
+                    )}
+                    {activeTab === 'feedback' && (
+                        <div className="space-y-8">
+                            {userRole === 'student' ? (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">💡 Submit Anonymous Feedback</h3>
+                                    <SubmitFeedback classCode={classroom.classCode} />
+                                </div>
+                            ) : (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">💬 Anonymous Feedback Received</h3>
+                                    <ViewFeedback classCode={classroom.classCode} userRole={userRole} />
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    {activeTab === 'leave-requests' && (
+                        <div className="space-y-8">
+                            {userRole === 'teacher' ? (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">📋 Student Leave Requests</h3>
+                                    <LeaveRequests classCode={classroom.classCode} />
+                                </div>
+                            ) : (
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-6">📋 Submit Leave Request</h3>
+                                    <LeaveRequestForm />
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    {activeTab === 'lesson-plan' && (
+                        <div>
+                            <LessonPlanCalendar classCode={classroom.classCode} />
+                        </div>
+                    )}
+                    {activeTab === 'qna' && (
+                        <div>
+                            <TopicWiseQnA classCode={classroom.classCode} userRole={userRole} />
+                        </div>
+                    )}
+                    {activeTab === 'quiz' && (
+                        <div>
+                            <TopicWiseQuiz classCode={classroom.classCode} userRole={userRole} />
+                        </div>
+                    )}
+                    {activeTab === 'resources' && (
+                        <div className="space-y-8">
+                            {userRole === 'teacher' && (
+                                <div className="mb-8">
+                                    <h3 className="text-2xl font-bold mb-6">📤 Upload Class Resource</h3>
+                                    <ResourceUpload />
+                                </div>
+                            )}
+                            <div>
+                                <h3 className="text-2xl font-bold mb-6">📚 Class Resources</h3>
+                                <ViewStudentResources classCode={classroom.classCode} />
+                            </div>
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
