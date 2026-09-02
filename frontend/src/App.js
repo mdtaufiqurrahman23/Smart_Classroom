@@ -10,6 +10,9 @@ import ClassroomPage from './components/Classroom/ClassroomPage';
 import TeacherDashboard from './components/TeacherDashboard';
 import CreateClassroom from './components/Classroom/CreateClassroom';
 import StudentDashboard from './components/StudentDashboard';
+import LeaveRequestForm from './components/LeaveRequestForm';
+import CreateQuiz from './components/CreateQuiz';
+import ResourceUpload from './components/ResourceUpload';
 // ADD YOUR PAGE IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 function App() {
@@ -24,6 +27,9 @@ function App() {
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/create-classroom" element={<CreateClassroom />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/leave-request" element={<LeaveRequestForm />} />
+        <Route path="/create-quiz" element={<CreateQuiz />} />
+        <Route path="/resource-upload" element={<ResourceUpload />} />
         {/* ADD YOUR PAGE ROUTE ABOVE THIS LINE (see your README's "Turn it on" section) */}
       </Routes>
     </Router>
