@@ -135,7 +135,22 @@ exports.getAttendance = async (req, res) => {
     const { classCode } = req.params;  // Get classCode from URL params
 
     try {
-        const attendance = await Attendance.find({ classCode }).sort({ date: -1 });  // Fetch all attendance records for the class
+        let query = { classCode };
+
+        // If the user is a student, restrict to only their own attendance records
+        if (req.user && req.user.role === 'student') {
+            const studentIdStr = req.user._id ? req.user._id.toString() : '';
+            const conditions = [];
+            if (studentIdStr) conditions.push({ studentId: studentIdStr });
+            if (req.user.studentId) conditions.push({ studentId: req.user.studentId });
+            if (req.user.email) conditions.push({ studentId: req.user.email.toLowerCase() });
+
+            if (conditions.length > 0) {
+                query.$or = conditions;
+            }
+        }
+
+        const attendance = await Attendance.find(query).sort({ date: -1 });  // Fetch records
         res.status(200).json(attendance);
     } catch (error) {
         console.error('Error fetching attendance:', error);
@@ -157,6 +172,10 @@ exports.getAllAttendance = async (req, res) => {
 // Mark attendance for a student
 exports.markAttendance = async (req, res) => {
     try {
+        if (req.user && req.user.role !== 'teacher') {
+            return res.status(403).json({ message: 'Access denied: Only teachers can manually mark attendance.' });
+        }
+
         const { classCode, studentId, name, status } = req.body;
 
         // Validate required fields
@@ -197,24 +216,46 @@ exports.markAttendance = async (req, res) => {
 // Bulk save attendance records
 exports.bulkSaveAttendance = async (req, res) => {
     try {
+        if (req.user && req.user.role !== 'teacher') {
+            return res.status(403).json({ message: 'Access denied: Only teachers can save attendance records.' });
+        }
+
         const { classCode, attendanceData } = req.body;
 
         if (!classCode || !attendanceData || !Array.isArray(attendanceData)) {
             return res.status(400).json({ message: 'Invalid request: classCode and attendanceData array required' });
         }
 
-        // Delete existing attendance for this class and date range
-        const dates = attendanceData.map(record => new Date(record.date));
-        const minDate = new Date(Math.min(...dates));
-        const maxDate = new Date(Math.max(...dates));
+        if (attendanceData.length === 0) {
+            return res.status(200).json({ message: 'No attendance records to save', recordCount: 0 });
+        }
 
-        await Attendance.deleteMany({
-            classCode,
-            date: { $gte: minDate, $lte: maxDate }
-        });
+        // Normalize records to ensure schema fields (name, status, date) are present
+        const formattedRecords = attendanceData.map(record => ({
+            classCode: record.classCode || classCode,
+            studentId: record.studentId,
+            name: record.name || record.studentName || 'Student',
+            status: (record.status === 'Present' || record.status === 'present') ? 'Present' : 'Absent',
+            date: new Date(record.date),
+            timestamp: new Date()
+        }));
+
+        // Delete existing attendance for this class and date range
+        const dateTimes = formattedRecords.map(r => r.date.getTime()).filter(t => !isNaN(t));
+        if (dateTimes.length > 0) {
+            const minDate = new Date(Math.min(...dateTimes));
+            minDate.setHours(0, 0, 0, 0);
+            const maxDate = new Date(Math.max(...dateTimes));
+            maxDate.setHours(23, 59, 59, 999);
+
+            await Attendance.deleteMany({
+                classCode,
+                date: { $gte: minDate, $lte: maxDate }
+            });
+        }
 
         // Insert new attendance records
-        const savedRecords = await Attendance.insertMany(attendanceData);
+        const savedRecords = await Attendance.insertMany(formattedRecords);
 
         res.status(201).json({
             message: `${savedRecords.length} attendance records saved successfully`,
@@ -222,7 +263,7 @@ exports.bulkSaveAttendance = async (req, res) => {
         });
     } catch (error) {
         console.error('Error bulk saving attendance:', error);
-        res.status(500).json({ message: 'Failed to save attendance records' });
+        res.status(500).json({ message: 'Failed to save attendance records', error: error.message });
     }
 };
 

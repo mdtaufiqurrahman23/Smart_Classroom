@@ -7,6 +7,8 @@ const resourceSchema = new mongoose.Schema({
   uploadedById: { type: String },  // ID of the person who uploaded (for tracking)
   resourceFile: { type: String, required: true },  // URL or path to the uploaded resource (e.g., PDF, DOC)
   resourceType: { type: String, required: true },  // Type of resource (e.g., "Notes", "PDF", etc.)
+  fileName: { type: String },  // Original file name (e.g., "Lecture_1.pdf")
+  fileSize: { type: Number },  // Size in bytes
   studentsRequested: [{ type: String }],  // Students who requested this resource
   points: { type: Number, default: 0 },  // Points awarded for this resource
   providedAt: { type: Date, default: Date.now },

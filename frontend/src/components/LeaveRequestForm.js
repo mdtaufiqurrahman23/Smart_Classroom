@@ -1,10 +1,10 @@
 // frontend/src/components/LeaveRequestForm.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function LeaveRequestForm() {
-  const [classCode, setClassCode] = useState('');
+function LeaveRequestForm({ classCode: propClassCode }) {
+  const [classCode, setClassCode] = useState(propClassCode || '');
   const [studentId, setStudentId] = useState('');
   const [studentName, setStudentName] = useState('');
   const [reason, setReason] = useState('');
@@ -14,30 +14,43 @@ function LeaveRequestForm() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (propClassCode) {
+      setClassCode(propClassCode);
+    }
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = token.split('.')[1];
+        const decoded = JSON.parse(atob(payload));
+        if (decoded.studentId) setStudentId(decoded.studentId);
+        if (decoded.name) setStudentName(decoded.name);
+        else if (decoded.email) setStudentName(decoded.email.split('@')[0]);
+      } catch (e) {
+        console.error('Error parsing token in LeaveRequestForm:', e);
+      }
+    }
+  }, [propClassCode]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
     setLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append('classCode', classCode);
-      formData.append('studentId', studentId);
-      formData.append('studentName', studentName);
-      formData.append('reason', reason);
-      formData.append('leaveDate', leaveDate);
-      if (document) {
-        formData.append('document', document);
-      }
-
-      await axios.post('/api/leave-requests/create', formData, { 
-        headers: { 'Content-Type': 'multipart/form-data' } 
+      await axios.post('http://localhost:5000/api/leave-requests/create', {
+        classCode: classCode.trim(),
+        studentId: studentId.trim(),
+        studentName: studentName.trim(),
+        reason: reason.trim(),
+        leaveDate,
+        document: document ? document.name : ''
       });
       
       setMessage('✅ Leave request submitted successfully!');
       setTimeout(() => navigate('/student-dashboard'), 2000);
     } catch (error) {
-      setMessage('❌ Error submitting leave request. Please try again.');
+      setMessage('❌ Error submitting leave request: ' + (error.response?.data?.message || error.message));
       console.error('Error submitting leave request:', error);
     } finally {
       setLoading(false);

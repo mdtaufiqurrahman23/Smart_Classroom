@@ -7,9 +7,12 @@ const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    let user = await User.findById(decoded.id);
+    if (!user && decoded.email) {
+      user = await User.findOne({ email: decoded.email.toLowerCase() });
+    }
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'User not found. Please log in again.' });
     }
     req.user = user;
     next();

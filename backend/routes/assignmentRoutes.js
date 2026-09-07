@@ -5,10 +5,16 @@ const path = require('path');
 const { createAssignment, getAssignments, submitAssignment, deleteAssignment, deleteSubmission } = require('../controllers/assignmentController');
 const router = express.Router();
 
-// Configure multer for file uploads (optional, for future use)
+const fs = require('fs');
+
+// Configure multer for local file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/assignments/');
+    const uploadDir = path.join(__dirname, '../uploads/assignments');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname));

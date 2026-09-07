@@ -1,7 +1,7 @@
 // src/components/Classroom/ClassroomPage.js
 
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';  // To access classCode from URL params
+import { useParams, useNavigate } from 'react-router-dom';  // To access classCode and navigation
 import QRAttendance from './QRAttendance';
 import AttendanceDashboard from '../Attendance/AttendanceDashboard';
 import CreateAnnouncement from '../TeacherDashboard/Announcement/CreateAnnouncement';
@@ -27,10 +27,35 @@ import LeaveRequestForm from '../LeaveRequestForm';
 
 const ClassroomPage = () => {
     const { classCode } = useParams();  // Retrieve classCode from the URL
+    const navigate = useNavigate();
     const [classroom, setClassroom] = useState(null);
     const [error, setError] = useState(null);  // For handling errors
     const [activeTab, setActiveTab] = useState('qr');  // Tab state for QR and Attendance
     const [userRole, setUserRole] = useState(null);  // User role (teacher or student)
+    const [resourceRefreshTrigger, setResourceRefreshTrigger] = useState(0);
+
+    const handleLogout = () => {
+        const role = userRole;
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        localStorage.removeItem('studentInfo');
+        localStorage.removeItem('user');
+        if (role === 'teacher') {
+            navigate('/teacher-login');
+        } else if (role === 'student') {
+            navigate('/student-login');
+        } else {
+            navigate('/');
+        }
+    };
+
+    const handleBackDashboard = () => {
+        if (userRole === 'teacher') {
+            navigate('/teacher-dashboard');
+        } else {
+            navigate('/student-dashboard');
+        }
+    };
 
     // These refs let a "Create" component tell the matching "View" component to refresh.
     // They're kept here permanently so no one has to add ref lines — just use the one your
@@ -110,6 +135,10 @@ const ClassroomPage = () => {
         }
     };
 
+    const handleResourceUploaded = () => {
+        setResourceRefreshTrigger(prev => prev + 1);
+    };
+
     return (
         <div className="page-wrapper min-h-screen" style={{
             background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f172a 50%, #1e293b 75%, #0f172a 100%)',
@@ -128,23 +157,48 @@ const ClassroomPage = () => {
                 pointerEvents: 'none',
                 zIndex: 0
             }} />
-            <div className="container" style={{ maxWidth: '1400px', marginTop: '40px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
+            {/* Navbar */}
+            <nav className="navbar" style={{ position: 'relative', zIndex: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 32px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <div className="navbar-brand cursor-pointer flex items-center gap-2 text-xl font-bold text-white" onClick={() => navigate('/')}>
+                    📚 Smart Class
+                </div>
+                <div className="flex items-center gap-3">
+                    <button onClick={handleBackDashboard} className="btn btn-secondary btn-sm flex items-center gap-1" style={{ padding: '8px 16px', borderRadius: '8px', cursor: 'pointer' }}>
+                        ← Dashboard
+                    </button>
+                    <button onClick={handleLogout} className="btn btn-sm flex items-center gap-1" style={{ backgroundColor: '#ef4444', color: '#ffffff', border: 'none', borderRadius: '8px', padding: '8px 18px', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.2s' }}>
+                        🚪 Logout
+                    </button>
+                </div>
+            </nav>
+
+            <div className="container" style={{ maxWidth: '1400px', marginTop: '30px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
                 {/* Role-Based Header */}
                 <div className="glass-card-lg mb-8 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-600">
-                    <div className="mb-4">
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className={`text-4xl ${userRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}`}></span>
-                            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                {userRole === 'teacher' ? '👨‍🏫 Teacher Dashboard' : '👨‍🎓 Student Dashboard'}
-                            </h1>
+                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                        <div>
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className={`text-4xl ${userRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}`}></span>
+                                <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    {userRole === 'teacher' ? '👨‍🏫 Teacher Dashboard' : '👨‍🎓 Student Dashboard'}
+                                </h1>
+                            </div>
+                            <p className="text-lg text-secondary mb-4">{classroom.name}</p>
+                            <div className="flex gap-4 flex-wrap">
+                                <span className="badge badge-primary">📍 Code: {classroom.classCode}</span>
+                                <span className="badge badge-success">✨ Active</span>
+                                <span className={`badge ${userRole === 'teacher' ? 'badge-info' : 'badge-secondary'}`}>
+                                    {userRole === 'teacher' ? '🎓 Instructor' : '📚 Learner'}
+                                </span>
+                            </div>
                         </div>
-                        <p className="text-lg text-secondary mb-4">{classroom.name}</p>
-                        <div className="flex gap-4 flex-wrap">
-                            <span className="badge badge-primary">📍 Code: {classroom.classCode}</span>
-                            <span className="badge badge-success">✨ Active</span>
-                            <span className={`badge ${userRole === 'teacher' ? 'badge-info' : 'badge-secondary'}`}>
-                                {userRole === 'teacher' ? '🎓 Instructor' : '📚 Learner'}
-                            </span>
+                        <div className="flex items-center gap-3">
+                            <button onClick={handleBackDashboard} className="btn btn-secondary btn-sm">
+                                ← Dashboard
+                            </button>
+                            <button onClick={handleLogout} className="btn btn-sm" style={{ backgroundColor: '#ef4444', color: '#ffffff', border: 'none', borderRadius: '8px', padding: '8px 16px', fontWeight: 'bold', cursor: 'pointer' }}>
+                                🚪 Logout
+                            </button>
                         </div>
                     </div>
                     {classroom.details && (
@@ -233,7 +287,7 @@ const ClassroomPage = () => {
                     )}
                     {activeTab === 'attendance' && (
                         <div>
-                            <AttendanceDashboard ref={attendanceDashboardRef} classCode={classroom.classCode} />
+                            <AttendanceDashboard ref={attendanceDashboardRef} classCode={classroom.classCode} userRole={userRole} />
                         </div>
                     )}
                     {activeTab === 'announcement' && (
@@ -327,7 +381,7 @@ const ClassroomPage = () => {
                             ) : (
                                 <div>
                                     <h3 className="text-2xl font-bold mb-6">📋 Submit Leave Request</h3>
-                                    <LeaveRequestForm />
+                                    <LeaveRequestForm classCode={classroom.classCode} />
                                 </div>
                             )}
                         </div>
@@ -352,12 +406,19 @@ const ClassroomPage = () => {
                             {userRole === 'teacher' && (
                                 <div className="mb-8">
                                     <h3 className="text-2xl font-bold mb-6">📤 Upload Class Resource</h3>
-                                    <ResourceUpload />
+                                    <ResourceUpload 
+                                        classCode={classroom.classCode} 
+                                        onResourceUploaded={handleResourceUploaded} 
+                                    />
                                 </div>
                             )}
                             <div>
                                 <h3 className="text-2xl font-bold mb-6">📚 Class Resources</h3>
-                                <ViewStudentResources classCode={classroom.classCode} />
+                                <ViewStudentResources 
+                                    classCode={classroom.classCode} 
+                                    userRole={userRole}
+                                    refreshTrigger={resourceRefreshTrigger}
+                                />
                             </div>
                         </div>
                     )}
