@@ -34,20 +34,26 @@ exports.createLessonPlan = async (req, res) => {
   }
 };
 
-// Get all lesson plans for a specific classroom within a date range
+// Get all lesson plans for a specific classroom (optional date range)
 exports.getLessonPlans = async (req, res) => {
-  const { classCode } = req.params;  // Get classCode from the URL
-  const { startDate, endDate } = req.query;  // Get date range (startDate, endDate)
+  const { classCode } = req.params;
+  const { startDate, endDate } = req.query;
 
   try {
-    const lessonPlans = await LessonPlan.find({
-      classCode,
-      date: { $gte: new Date(startDate), $lte: new Date(endDate) }
-    }).sort({ date: 1 }); // Sort by date in ascending order
+    const query = { classCode };
+    
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    if (start && end && !isNaN(start.getTime()) && !isNaN(end.getTime())) {
+      query.date = { $gte: start, $lte: end };
+    }
+
+    const lessonPlans = await LessonPlan.find(query).sort({ date: 1 });
     res.status(200).json(lessonPlans);
   } catch (error) {
     console.error('Error fetching lesson plans:', error);
-    res.status(500).json({ message: 'Failed to fetch lesson plans' });
+    res.status(500).json({ message: 'Failed to fetch lesson plans', error: error.message });
   }
 };
 

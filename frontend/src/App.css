@@ -436,3 +436,114 @@ body {
   border-radius: 9999px;
   transition: width 0.4s ease;
 }
+
+/* ==========================================================================
+   Lesson Plan & Dark React Calendar Custom Styling
+   ========================================================================== */
+.custom-dark-calendar.react-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  background: rgba(15, 23, 42, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  font-family: inherit !important;
+  color: #f8fafc !important;
+  backdrop-filter: blur(16px) !important;
+  padding: 16px !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+}
+
+.custom-dark-calendar .react-calendar__navigation {
+  display: flex !important;
+  margin-bottom: 14px !important;
+  height: 44px !important;
+}
+
+.custom-dark-calendar .react-calendar__navigation button {
+  color: #f1f5f9 !important;
+  min-width: 44px !important;
+  background: rgba(30, 41, 59, 0.7) !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin: 0 3px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+.custom-dark-calendar .react-calendar__navigation button:hover:enabled {
+  background: rgba(59, 130, 246, 0.3) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  color: #60a5fa !important;
+}
+
+.custom-dark-calendar .react-calendar__month-view__weekdays {
+  text-align: center !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  padding: 8px 0 !important;
+}
+
+.custom-dark-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none !important;
+}
+
+.custom-dark-calendar .react-calendar__tile {
+  max-width: 100% !important;
+  padding: 10px 4px !important;
+  background: none !important;
+  text-align: center !important;
+  line-height: 16px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #cbd5e1 !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  height: 48px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justifyContent: center !important;
+}
+
+.custom-dark-calendar .react-calendar__tile:hover:enabled {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #93c5fd !important;
+}
+
+.custom-dark-calendar .react-calendar__tile--now {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.5) !important;
+  color: #34d399 !important;
+}
+
+.custom-dark-calendar .react-calendar__tile--active,
+.custom-dark-calendar .react-calendar__tile--active:enabled {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.5) !important;
+  border: none !important;
+}
+
+.custom-dark-calendar .react-calendar__tile--hasActive {
+  background: rgba(59, 130, 246, 0.3) !important;
+}
+
+.custom-dark-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  color: #475569 !important;
+  opacity: 0.4 !important;
+}
+
+.calendar-event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  margin-top: 3px;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.8);
+}
+

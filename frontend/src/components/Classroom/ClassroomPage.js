@@ -388,7 +388,7 @@ const ClassroomPage = () => {
                     )}
                     {activeTab === 'lesson-plan' && (
                         <div>
-                            <LessonPlanCalendar classCode={classroom.classCode} />
+                            <LessonPlanCalendar classCode={classroom.classCode} userRole={userRole} />
                         </div>
                     )}
                     {activeTab === 'qna' && (

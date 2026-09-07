@@ -186,18 +186,57 @@ async function seed() {
       }
     ]);
 
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth();
+
     await LessonPlan.create([
       {
         classCode: classroom.classCode,
-        date: new Date(),
-        topic: 'Agile Methodologies & Scrum Framework',
-        notes: 'Sprint planning, user stories, poker planning estimation, and sprint burndown charts.'
+        date: new Date(year, month, 1, 10, 0, 0),
+        topic: 'Introduction to Software Engineering & SDLC Models',
+        notes: 'Overview of classical Waterfall vs. Modern Agile. Historical context of software crisis and professional code of ethics.'
       },
       {
         classCode: classroom.classCode,
-        date: new Date(Date.now() + 86400000 * 2),
+        date: new Date(year, month, 3, 10, 0, 0),
+        topic: 'Requirements Engineering & User Stories',
+        notes: 'Eliciting functional vs. non-functional requirements. Structuring user stories with INVEST criteria and MoSCoW prioritization.'
+      },
+      {
+        classCode: classroom.classCode,
+        date: new Date(year, month, 7, 10, 0, 0),
+        topic: 'Agile Methodologies & Scrum Framework',
+        notes: 'Sprint planning ceremonies, daily standups, backlog refinement, sprint review, and retrospective rituals.'
+      },
+      {
+        classCode: classroom.classCode,
+        date: new Date(year, month, 9, 10, 0, 0),
         topic: 'Software Architecture & MVC Pattern',
-        notes: 'Model-View-Controller pattern separation of concerns, routing, and controller testing.'
+        notes: 'Architectural styles, Model-View-Controller (MVC) layers, separation of concerns, and RESTful API contracts.'
+      },
+      {
+        classCode: classroom.classCode,
+        date: new Date(year, month, 14, 10, 0, 0),
+        topic: 'Object-Oriented Design & Creational Design Patterns',
+        notes: 'Deep dive into Singleton, Factory Method, and Abstract Factory patterns. Hands-on code refactoring exercise.'
+      },
+      {
+        classCode: classroom.classCode,
+        date: new Date(year, month, 16, 10, 0, 0),
+        topic: 'Structural & Behavioral Patterns (Observer & Strategy)',
+        notes: 'Event-driven architecture with Observer pattern, algorithm encapsulation with Strategy, and Adapter for legacy bridges.'
+      },
+      {
+        classCode: classroom.classCode,
+        date: new Date(year, month, 21, 10, 0, 0),
+        topic: 'Software Testing, QA & Test-Driven Development (TDD)',
+        notes: 'Unit testing, integration testing, black-box vs white-box techniques, Jest test suites, and Red-Green-Refactor cycle.'
+      },
+      {
+        classCode: classroom.classCode,
+        date: new Date(year, month, 23, 10, 0, 0),
+        topic: 'CI/CD Pipelines, DevOps & Automated Deployment',
+        notes: 'GitHub Actions workflow automation, Docker containerization, cloud artifact hosting, and zero-downtime releases.'
       }
     ]);
 
