@@ -4,13 +4,13 @@ const bcrypt = require('bcryptjs');
 
 exports.register = async (req, res) => {  // ← async added
   try {
-    let { email, password, role, name, studentId, department } = req.body;
-    
-    console.log('📝 SIGNUP ATTEMPT:', { email, role, name, studentId });
-    
+    let { email, password, role, name, department } = req.body;
+
+    console.log('📝 SIGNUP ATTEMPT:', { email, role, name });
+
     // Normalize email
     email = email.trim().toLowerCase();
-    
+
     // Validate required fields
     if (!email || !password || !role) {
       return res.status(400).json({ error: 'Email, password, role required' });
@@ -27,15 +27,10 @@ exports.register = async (req, res) => {  // ← async added
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    if (role === 'student') {
-      if (!name || !studentId || !department) {
-        return res.status(400).json({ error: 'Student: name, ID, department required' });
-      }
-      // Check if student ID exists
-      const existingStudentId = await User.findOne({ studentId });
-      if (existingStudentId) {
-        return res.status(400).json({ error: 'Student ID already exists' });
-      }
+    // Student ID is NOT provided at signup — an admin assigns it when they
+    // approve the request, so a student can't just make one up.
+    if (role === 'student' && (!name || !department)) {
+      return res.status(400).json({ error: 'Student: name and department required' });
     }
 
     if (role === 'teacher' && !name) {
@@ -50,7 +45,7 @@ exports.register = async (req, res) => {  // ← async added
       role,
       name,
       status: 'pending',
-      ...(role === 'student' && { studentId, department })
+      ...(role === 'student' && { department })
     });
 
     console.log('💾 SAVING USER TO DB...');

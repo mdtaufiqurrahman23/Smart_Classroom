@@ -10,6 +10,7 @@ function AdminDashboard() {
   const [error, setError] = useState('');
   const [actioningId, setActioningId] = useState(null);
   const [view, setView] = useState('pending'); // 'pending' | 'all'
+  const [studentIdInputs, setStudentIdInputs] = useState({}); // requestId -> Student ID being assigned
 
   const authHeader = () => ({ Authorization: `Bearer ${localStorage.getItem('token')}` });
 
@@ -23,6 +24,18 @@ function AdminDashboard() {
       setPending(pendingRes.data);
       setAllUsers(allRes.data);
       setError('');
+
+      // Pre-fill the Student ID input with the suggested next ID, but don't
+      // clobber anything the admin already typed for a request still showing.
+      setStudentIdInputs((prev) => {
+        const next = { ...prev };
+        pendingRes.data.forEach((r) => {
+          if (r.role === 'student' && next[r._id] === undefined) {
+            next[r._id] = r.suggestedId || '';
+          }
+        });
+        return next;
+      });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load requests');
       console.error('Error fetching admin data:', err);
@@ -35,10 +48,17 @@ function AdminDashboard() {
     fetchData();
   }, [fetchData]);
 
-  const handleApprove = async (userId) => {
+  const handleApprove = async (request) => {
+    const userId = request._id;
+    if (request.role === 'student' && !studentIdInputs[userId]?.trim()) {
+      alert('Please enter a Student ID before approving');
+      return;
+    }
+
     setActioningId(userId);
     try {
-      await axios.post(`http://localhost:5000/api/admin/approve/${userId}`, {}, { headers: authHeader() });
+      const body = request.role === 'student' ? { studentId: studentIdInputs[userId].trim() } : {};
+      await axios.post(`http://localhost:5000/api/admin/approve/${userId}`, body, { headers: authHeader() });
       await fetchData();
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to approve');
@@ -114,12 +134,22 @@ function AdminDashboard() {
                       </p>
                       <p className="text-secondary text-sm">{req.email}</p>
                       {req.role === 'student' && (
-                        <p className="text-secondary text-sm">ID claimed: {req.studentId} · Dept: {req.department}</p>
+                        <p className="text-secondary text-sm">Dept: {req.department}</p>
                       )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2" style={{ flexWrap: 'wrap' }}>
+                      {req.role === 'student' && (
+                        <input
+                          type="text"
+                          placeholder="Assign Student ID"
+                          value={studentIdInputs[req._id] ?? ''}
+                          onChange={(e) => setStudentIdInputs((prev) => ({ ...prev, [req._id]: e.target.value.toUpperCase() }))}
+                          style={{ width: '160px', margin: 0 }}
+                          title="This ID is what the student will use to identify themselves going forward"
+                        />
+                      )}
                       <button
-                        onClick={() => handleApprove(req._id)}
+                        onClick={() => handleApprove(req)}
                         disabled={actioningId === req._id}
                         className="btn btn-primary btn-sm"
                       >

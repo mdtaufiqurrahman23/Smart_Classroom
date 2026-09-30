@@ -7,7 +7,6 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(null);
   const [name, setName] = useState('');
-  const [studentId, setStudentId] = useState('');
   const [department, setDepartment] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -19,7 +18,7 @@ function Signup() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return 'Valid email required';
     if (password.length < 6) return 'Password must be 6+ characters';
-    if (role === 'student' && (!name || !studentId || !department)) {
+    if (role === 'student' && (!name || !department)) {
       return 'All student fields required';
     }
     if (role === 'teacher' && !name) {
@@ -41,7 +40,7 @@ function Signup() {
     }
 
     const userData = role === 'student'
-      ? { email, password, role, name, studentId, department }
+      ? { email, password, role, name, department }
       : { email, password, role, name };
 
     try {
@@ -65,7 +64,6 @@ function Signup() {
       setEmail('');
       setPassword('');
       setName('');
-      setStudentId('');
       setDepartment('');
       setError('');
     }
@@ -199,19 +197,9 @@ function Signup() {
                   maxLength={50}
                 />
               </div>
-              <div className="form-group">
-                <label className="form-label">Student ID</label>
-                <input
-                  type="text"
-                  placeholder="e.g., CSE001"
-                  value={studentId}
-                  onChange={(e) => setStudentId(e.target.value.toUpperCase())}
-                  required
-                  pattern="[A-Z0-9]{3,10}"
-                  title="Student ID: 3-10 uppercase letters/numbers"
-                  maxLength={10}
-                />
-              </div>
+              <p className="text-secondary text-sm mb-4">
+                💡 Your Student ID will be assigned by the admin when your registration is approved.
+              </p>
               <div className="form-group">
                 <label className="form-label">Department</label>
                 <input
