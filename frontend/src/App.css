@@ -582,21 +582,18 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   Cyber tab bar (Classroom hub)
-   A single-row, horizontally scrollable strip — never wraps into an
-   awkward extra row no matter how many features get added, and every
-   button has a solid, clearly visible background at rest (not just on
-   hover), so it always reads as a button.
+   Cyber tab list (Classroom hub)
+   One column, one button per feature. Hovering a button grows it well
+   past its neighbors (transform, so it overlaps rather than pushing
+   the list around) with a strong glow — a deliberate, obvious effect.
    ========================================================================== */
 
 .cyber-tabbar {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 14px;
+  padding: 16px;
   margin-bottom: 24px;
   background: var(--panel);
   border: 1px solid var(--border-soft);
@@ -607,26 +604,31 @@ textarea::placeholder {
 .cyber-tab {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  padding: 12px 20px;
-  border-radius: 12px;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 22px;
+  border-radius: 14px;
   border: 1px solid var(--border-soft);
   background: rgba(30, 27, 66, 0.85);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.01em;
   cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  text-align: left;
+  position: relative;
+  transform-origin: center left;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .cyber-tab:hover {
-  background: rgba(0, 240, 255, 0.16);
+  transform: scale(1.25);
+  z-index: 30;
+  background: rgba(0, 240, 255, 0.2);
   border-color: var(--border-strong);
   color: #fff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 36px rgba(0, 240, 255, 0.45);
 }
 
 .cyber-tab.active {
@@ -637,16 +639,20 @@ textarea::placeholder {
   box-shadow: 0 4px 16px rgba(0, 240, 255, 0.35);
 }
 
+.cyber-tab.active:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 36px rgba(0, 240, 255, 0.6);
+}
+
 .cyber-tab-icon {
-  font-size: 16px;
+  font-size: 22px;
+  flex-shrink: 0;
 }
 
 .cyber-tab-divider {
-  width: 1px;
-  align-self: stretch;
+  height: 1px;
+  width: 100%;
   background: rgba(255, 255, 255, 0.12);
-  flex-shrink: 0;
-  margin: 2px 2px;
+  margin: 4px 0;
 }
 
 /* ==========================================================================
