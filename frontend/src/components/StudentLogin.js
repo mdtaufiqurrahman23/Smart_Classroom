@@ -15,9 +15,9 @@ function StudentLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password, expectedRole: 'student' });
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', 'student');
+      localStorage.setItem('role', response.data.user.role);
       navigate('/student-dashboard');
     } catch (error) {
       setError(error.response?.data?.error || 'Invalid credentials. Please try again.');

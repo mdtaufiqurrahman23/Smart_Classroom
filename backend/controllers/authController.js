@@ -79,43 +79,53 @@ exports.register = async (req, res) => {  // ← async added
 
 exports.login = async (req, res) => {  // ← async added
   try {
-    let { email, password } = req.body;
-    
-    console.log('🔐 LOGIN ATTEMPT:', { email });
-    
+    let { email, password, expectedRole } = req.body;
+
+    console.log('🔐 LOGIN ATTEMPT:', { email, expectedRole });
+
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password required' });
     }
-    
+
     // Normalize email (IMPORTANT: must match signup normalization)
     email = email.trim().toLowerCase();
     console.log('📧 NORMALIZED EMAIL:', email);
-    
+
     const user = await User.findOne({ email });
     console.log('🔍 USER FOUND:', user ? 'YES ✅' : 'NO ❌');
-    
+
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    
+
     // Check if password exists in database
     console.log('🔒 PASSWORD IN DB:', user.password ? 'YES ✅' : 'NO ❌');
     if (!user.password) {
       console.error('ERROR: User found but password not stored in database!');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    
+
     console.log('🔑 COMPARING PASSWORDS...');
     console.log('   Input password:', password);
     console.log('   Hashed password from DB:', user.password.substring(0, 30) + '...');
-    
+
     const isMatch = await user.comparePassword(password);
     console.log('✔️ PASSWORD MATCH:', isMatch ? 'YES ✅' : 'NO ❌');
-    
+
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    
+
+    // The login form itself tells us which role it's for (student/teacher/admin
+    // login pages). Reject if the account's actual role doesn't match — this is
+    // what stops a teacher account from logging in through the student page.
+    if (expectedRole && user.role !== expectedRole) {
+      console.log(`❌ ROLE MISMATCH: account is '${user.role}', tried to log in as '${expectedRole}'`);
+      return res.status(403).json({
+        error: `This account is registered as a ${user.role}. Please use the ${user.role} login page.`
+      });
+    }
+
     const token = jwt.sign(
       { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
