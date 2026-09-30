@@ -123,11 +123,12 @@ function TeacherLogin() {
 
             <div className="text-center pt-4">
               <p className="text-secondary mb-4">
-                Don't have an account? 
+                Don't have an account?
                 <Link to="/signup" className="text-accent ml-2 font-semibold hover:underline">
                   Sign up here
                 </Link>
               </p>
+              <Link to="/" className="text-accent font-semibold hover:underline">← Back to Home</Link>
             </div>
           </form>
 
