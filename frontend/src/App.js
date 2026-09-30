@@ -1,6 +1,6 @@
 // src/App.js
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
@@ -17,8 +17,26 @@ import ResourceUpload from './components/ResourceUpload';
 // ADD YOUR PAGE IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+
   return (
     <Router>
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className="theme-toggle"
+        aria-label="Toggle dark and light mode"
+        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {theme === 'dark' ? '🌙' : '☀️'}
+      </button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/student-login" element={<StudentLogin />} />

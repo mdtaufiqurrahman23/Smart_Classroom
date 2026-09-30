@@ -42,6 +42,43 @@
 }
 
 /* ==========================================================================
+   Light mode — same variables, light values. Everything built on top of
+   these custom properties (cards, buttons, badges, the tab list, forms,
+   the calendar, attendance dashboard) re-themes automatically. Individual
+   feature screens that use their own hardcoded Tailwind dark-mode classes
+   are outside this system and may not fully adapt.
+   ========================================================================== */
+
+:root[data-theme="light"] {
+  --void: #f2f3fa;
+  --void-deep: #e6e8f5;
+  --panel: rgba(255, 255, 255, 0.78);
+  --panel-solid: #ffffff;
+  --panel-light: rgba(255, 255, 255, 0.9);
+  --border-soft: rgba(88, 28, 200, 0.14);
+  --border-strong: rgba(88, 28, 200, 0.35);
+
+  --cyan: #0891b2;
+  --cyan-dim: #0e7490;
+  --magenta: #d6009e;
+  --violet: #7c3aed;
+  --violet-deep: #5b21b6;
+  --pink: #db2777;
+  --amber: #b45309;
+  --green: #059669;
+  --red: #dc2626;
+
+  --text: #1a1830;
+  --text-dim: #4b4f6b;
+  --text-faint: #7c80a0;
+
+  --glow-cyan: 0 0 4px rgba(8, 145, 178, 0.5), 0 0 20px rgba(8, 145, 178, 0.2);
+  --glow-magenta: 0 0 4px rgba(214, 0, 158, 0.5), 0 0 20px rgba(214, 0, 158, 0.2);
+  --glow-violet: 0 0 4px rgba(124, 58, 237, 0.5), 0 0 24px rgba(124, 58, 237, 0.25);
+  --glow-soft: 0 8px 24px rgba(30, 20, 70, 0.12), 0 0 0 1px rgba(88, 28, 200, 0.06) inset;
+}
+
+/* ==========================================================================
    Base / reset
    ========================================================================== */
 
@@ -99,6 +136,38 @@ select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Dark/light theme toggle — fixed bottom-right on every page, so it
+   never collides with a page's own navbar/header controls up top.
+   ========================================================================== */
+
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--glow-soft);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.12) rotate(12deg);
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
 }
 
 /* ==========================================================================
