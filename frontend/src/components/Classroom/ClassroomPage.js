@@ -23,6 +23,8 @@ import ViewFeedback from '../TeacherDashboard/Announcement/ViewFeedback';
 import SubmitFeedback from '../SubmitFeedback';
 import LeaveRequests from '../TeacherDashboard/Announcement/LeaveRequests';
 import LeaveRequestForm from '../LeaveRequestForm';
+import StudentShareResource from '../StudentShareResource';
+import RequestResource from '../RequestResource';
 // ADD YOUR COMPONENT IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 const ClassroomPage = () => {
@@ -406,20 +408,34 @@ const ClassroomPage = () => {
                             {userRole === 'teacher' && (
                                 <div className="mb-8">
                                     <h3 className="text-2xl font-bold mb-6">📤 Upload Class Resource</h3>
-                                    <ResourceUpload 
-                                        classCode={classroom.classCode} 
-                                        onResourceUploaded={handleResourceUploaded} 
+                                    <ResourceUpload
+                                        classCode={classroom.classCode}
+                                        onResourceUploaded={handleResourceUploaded}
+                                    />
+                                </div>
+                            )}
+                            {userRole === 'student' && (
+                                <div className="mb-8">
+                                    <h3 className="text-2xl font-bold mb-6">📤 Share Your Own Resource</h3>
+                                    <StudentShareResource
+                                        classCode={classroom.classCode}
+                                        onResourceShared={handleResourceUploaded}
                                     />
                                 </div>
                             )}
                             <div>
                                 <h3 className="text-2xl font-bold mb-6">📚 Class Resources</h3>
-                                <ViewStudentResources 
-                                    classCode={classroom.classCode} 
+                                <ViewStudentResources
+                                    classCode={classroom.classCode}
                                     userRole={userRole}
                                     refreshTrigger={resourceRefreshTrigger}
                                 />
                             </div>
+                            {userRole === 'student' && (
+                                <div className="border-t border-white/20 pt-8">
+                                    <RequestResource classCode={classroom.classCode} />
+                                </div>
+                            )}
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
