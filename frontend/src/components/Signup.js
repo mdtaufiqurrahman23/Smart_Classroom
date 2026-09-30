@@ -86,7 +86,7 @@ function Signup() {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+        background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -94,7 +94,7 @@ function Signup() {
         <div className="glass-card" style={{ maxWidth: '500px', width: '100%' }}>
           <div className="text-center mb-8">
             <h2 className="text-sm font-semibold mb-4" style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
@@ -102,7 +102,7 @@ function Signup() {
               ✨ Revolutionizing Academic Attendance
             </h2>
             <h1 className="text-5xl font-bold text-center mb-2" style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+              background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
@@ -119,7 +119,7 @@ function Signup() {
                 onClick={() => setRole('student')}
                 className="flex-1"
                 style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '40px 30px',
@@ -140,7 +140,7 @@ function Signup() {
                 onClick={() => setRole('teacher')}
                 className="flex-1"
                 style={{
-                  background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '40px 30px',
@@ -233,7 +233,7 @@ function Signup() {
                 type="submit" 
                 disabled={loading}
                 style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '12px 25px',
@@ -298,7 +298,7 @@ function Signup() {
                 type="submit" 
                 disabled={loading}
                 style={{
-                  background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '12px 25px',

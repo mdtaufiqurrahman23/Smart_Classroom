@@ -58,7 +58,7 @@ const TeacherDashboard = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+              background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
               pointerEvents: 'none',
               zIndex: 0
             }} />
@@ -85,7 +85,7 @@ const TeacherDashboard = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+              background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
               pointerEvents: 'none',
               zIndex: 0
             }} />
@@ -105,7 +105,7 @@ const TeacherDashboard = () => {
                     <div className="flex-between">
                         <div>
                             <h1 className="text-5xl font-bold mb-2" style={{
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
                                 backgroundClip: 'text'
@@ -115,7 +115,7 @@ const TeacherDashboard = () => {
                         <button 
                             onClick={handleCreateClass}
                             style={{
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                                 color: 'white',
                                 border: 'none',
                                 padding: '18px 35px',
@@ -124,7 +124,7 @@ const TeacherDashboard = () => {
                                 transition: 'all 0.3s ease',
                                 fontSize: '18px',
                                 fontWeight: 'bold',
-                                boxShadow: '0 8px 20px rgba(102, 126, 234, 0.3)'
+                                boxShadow: '0 8px 20px rgba(0, 240, 255, 0.3)'
                             }}
                             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
                             onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
@@ -148,7 +148,7 @@ const TeacherDashboard = () => {
                             <div className="glass-card-lg text-center py-16">
                                 <div className="text-6xl mb-6">📭</div>
                                 <h2 className="text-3xl font-bold mb-4" style={{
-                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                                    background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                     backgroundClip: 'text'
@@ -159,7 +159,7 @@ const TeacherDashboard = () => {
                                 <button 
                                     onClick={handleCreateClass}
                                     style={{
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                                         color: 'white',
                                         border: 'none',
                                         padding: '18px 35px',
@@ -168,7 +168,7 @@ const TeacherDashboard = () => {
                                         transition: 'all 0.3s ease',
                                         fontSize: '18px',
                                         fontWeight: 'bold',
-                                        boxShadow: '0 8px 20px rgba(102, 126, 234, 0.3)'
+                                        boxShadow: '0 8px 20px rgba(0, 240, 255, 0.3)'
                                     }}
                                 >
                                     Create  Classroom
@@ -218,7 +218,7 @@ const TeacherDashboard = () => {
                                             }}>
                                                 <div className="text-4xl">🎓</div>
                                                 <span style={{
-                                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                                    background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                                                     color: 'white',
                                                     padding: '4px 12px',
                                                     borderRadius: '20px',
@@ -248,7 +248,7 @@ const TeacherDashboard = () => {
                                                         navigate(`/classroom/${classroom.classCode}`);
                                                     }}
                                                     style={{
-                                                        background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                                                        background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
                                                         color: 'white',
                                                         border: 'none',
                                                         padding: '12px 24px',
@@ -283,7 +283,7 @@ const TeacherDashboard = () => {
                         }}>
                             <div className="text-4xl mb-3">🎓</div>
                             <p className="text-3xl font-bold" style={{
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
                                 backgroundClip: 'text'
@@ -299,7 +299,7 @@ const TeacherDashboard = () => {
                         }}>
                             <div className="text-4xl mb-3">👥</div>
                             <p className="text-3xl font-bold" style={{
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
                                 backgroundClip: 'text'
@@ -317,7 +317,7 @@ const TeacherDashboard = () => {
                         }}>
                             <div className="text-4xl mb-3">📊</div>
                             <p className="text-3xl font-bold" style={{
-                                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                                background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
                                 backgroundClip: 'text'
@@ -333,7 +333,7 @@ const TeacherDashboard = () => {
                         }}>
                             <div className="text-4xl mb-3">✨</div>
                             <p className="text-3xl font-bold" style={{
-                                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                                background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
                                 backgroundClip: 'text'

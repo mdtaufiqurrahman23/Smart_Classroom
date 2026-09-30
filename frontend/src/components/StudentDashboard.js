@@ -141,7 +141,7 @@ function StudentDashboard() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+          background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
           pointerEvents: 'none',
           zIndex: 0
         }} />
@@ -158,7 +158,7 @@ function StudentDashboard() {
         <div className="container" style={{ maxWidth: '800px', marginTop: '30px', position: 'relative', zIndex: 1 }}>
           <div className="glass-card-lg text-center">
             <h1 className="text-4xl font-bold mb-2" style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+              background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
@@ -193,7 +193,7 @@ function StudentDashboard() {
                   type="submit"
                   disabled={joinLoading || !joinCode.trim()}
                   style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                     color: 'white',
                     border: 'none',
                     padding: '12px 25px',
@@ -237,7 +237,7 @@ function StudentDashboard() {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+        background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -256,7 +256,7 @@ function StudentDashboard() {
           <div className="flex-between mb-8">
             <div>
               <h1 className="text-4xl font-bold mb-2" style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text'
@@ -320,7 +320,7 @@ function StudentDashboard() {
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-8px)';
                       e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(102, 126, 234, 0.2)';
+                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 240, 255, 0.2)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
@@ -338,7 +338,7 @@ function StudentDashboard() {
                         <div style={{ fontSize: '3rem' }}>📚</div>
                         {cls.students && (
                           <span style={{
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                             color: 'white',
                             padding: '6px 14px',
                             borderRadius: '20px',
@@ -395,7 +395,7 @@ function StudentDashboard() {
                           navigate(`/classroom/${cls.classCode}`);
                         }}
                         style={{
-                          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                          background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
                           color: 'white',
                           border: 'none',
                           padding: '12px 24px',
@@ -467,7 +467,7 @@ function StudentDashboard() {
                 type="submit"
                 disabled={joinLoading || !joinCode.trim()}
                 style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
                   color: 'white',
                   border: 'none',
                   padding: '12px 28px',
@@ -477,17 +477,17 @@ function StudentDashboard() {
                   fontWeight: 'bold',
                   opacity: joinLoading || !joinCode.trim() ? 0.7 : 1,
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 12px rgba(102, 126, 234, 0.2)'
+                  boxShadow: '0 4px 12px rgba(0, 240, 255, 0.2)'
                 }}
                 onMouseEnter={(e) => {
                   if (!joinLoading && joinCode.trim()) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.4)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 240, 255, 0.4)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.2)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 240, 255, 0.2)';
                 }}
               >
                 {joinLoading ? 'Joining...' : 'Join New'}

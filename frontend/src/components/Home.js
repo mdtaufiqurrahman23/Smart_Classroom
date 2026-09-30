@@ -22,7 +22,7 @@ function Home() {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+        background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -48,7 +48,7 @@ function Home() {
       <div style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
         <div style={{ textAlign: 'center', marginBottom: '60px', width: '100%' }}>
           <h2 className="text-sm font-semibold mb-4" style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -59,7 +59,7 @@ function Home() {
             ✨ Revolutionizing Academic Attendance
           </h2>
           <h1 style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+            background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -77,7 +77,7 @@ function Home() {
           <button 
             onClick={() => navigate('/student-login')}
             style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
               color: 'white',
               border: 'none',
               padding: '50px 45px',
@@ -86,7 +86,7 @@ function Home() {
               transition: 'all 0.3s ease',
               textAlign: 'center',
               width: '320px',
-              boxShadow: '0 8px 20px rgba(102, 126, 234, 0.3)'
+              boxShadow: '0 8px 20px rgba(0, 240, 255, 0.3)'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
@@ -102,7 +102,7 @@ function Home() {
           <button 
             onClick={() => navigate('/teacher-login')}
             style={{
-              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #ff2ee6 100%)',
               color: 'white',
               border: 'none',
               padding: '50px 45px',
@@ -111,7 +111,7 @@ function Home() {
               transition: 'all 0.3s ease',
               textAlign: 'center',
               width: '320px',
-              boxShadow: '0 8px 20px rgba(245, 87, 108, 0.3)'
+              boxShadow: '0 8px 20px rgba(255, 46, 230, 0.3)'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}

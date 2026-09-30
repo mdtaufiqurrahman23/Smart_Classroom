@@ -155,7 +155,7 @@ const ClassroomPage = () => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%)',
+                background: 'radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 46, 230, 0.15) 0%, transparent 50%)',
                 pointerEvents: 'none',
                 zIndex: 0
             }} />
