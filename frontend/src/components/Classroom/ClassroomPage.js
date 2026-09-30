@@ -198,7 +198,8 @@ const ClassroomPage = () => {
                     )}
                 </div>
 
-                {/* Feature tab bar — single scrollable row, never wraps */}
+                {/* Feature list beside its content, not above it */}
+                <div className="cyber-layout">
                 <div className="cyber-tabbar">
                     <button className={`cyber-tab ${activeTab === 'qr' ? 'active' : ''}`} onClick={() => setActiveTab('qr')}>
                         <span className="cyber-tab-icon">📱</span>QR Code
@@ -249,7 +250,7 @@ const ClassroomPage = () => {
                 </div>
 
                 {/* Tab Content */}
-                <div className="glass-card-lg">
+                <div className="glass-card-lg cyber-content">
                     {activeTab === 'qr' && (
                         <div className="flex flex-col items-center justify-center py-12">
                             <QRAttendance classCode={classroom.classCode} userRole={userRole} onQRScanned={() => {
@@ -411,6 +412,7 @@ const ClassroomPage = () => {
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
+                </div>
                 </div>
             </div>
         </div>

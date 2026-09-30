@@ -583,22 +583,51 @@ textarea::placeholder {
 
 /* ==========================================================================
    Cyber tab list (Classroom hub)
-   One column, one button per feature. Hovering a button grows it well
-   past its neighbors (transform, so it overlaps rather than pushing
-   the list around) with a strong glow — a deliberate, obvious effect.
+   One column, one button per feature, sitting beside its content panel
+   rather than above it. Hovering a button grows it well past its
+   neighbors (transform, so it overlaps rather than pushing the list
+   around) with a strong glow — a deliberate, obvious effect.
    ========================================================================== */
+
+.cyber-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+.cyber-content {
+  flex: 1 1 0%;
+  min-width: 0;
+}
 
 .cyber-tabbar {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
+  flex: 0 0 260px;
+  position: sticky;
+  top: 24px;
   padding: 16px;
-  margin-bottom: 24px;
   background: var(--panel);
   border: 1px solid var(--border-soft);
   border-radius: 16px;
   box-shadow: var(--glow-soft);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .cyber-layout {
+    flex-direction: column;
+  }
+
+  .cyber-tabbar {
+    flex: 0 0 auto;
+    width: 100%;
+    position: static;
+    max-height: none;
+  }
 }
 
 .cyber-tab {
