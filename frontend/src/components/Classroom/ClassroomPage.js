@@ -35,6 +35,7 @@ const ClassroomPage = () => {
     const [activeTab, setActiveTab] = useState('qr');  // Tab state for QR and Attendance
     const [userRole, setUserRole] = useState(null);  // User role (teacher or student)
     const [resourceRefreshTrigger, setResourceRefreshTrigger] = useState(0);
+    const [profile, setProfile] = useState(null);  // Logged-in user's profile (name, avatar, etc.)
 
     const handleLogout = () => {
         const role = userRole;
@@ -97,6 +98,14 @@ const ClassroomPage = () => {
             } catch (error) {
                 console.error('Error decoding token:', error);
             }
+
+            // Fetch the logged-in user's profile (name, avatar, etc.)
+            fetch('http://localhost:5000/api/auth/profile', {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then((res) => (res.ok ? res.json() : null))
+                .then((data) => data && setProfile(data))
+                .catch((err) => console.error('Error fetching profile:', err));
         }
 
         fetchClassroom();  // Fetch classroom data on component mount
@@ -177,21 +186,47 @@ const ClassroomPage = () => {
             <div className="container" style={{ maxWidth: '1500px', marginTop: '30px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
                 {/* Role-Based Header */}
                 <div className="glass-card-lg mb-8 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-600">
-                    <div className="mb-4">
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className={`text-4xl ${userRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}`}></span>
-                            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                {userRole === 'teacher' ? '👨‍🏫 Teacher Dashboard' : '👨‍🎓 Student Dashboard'}
-                            </h1>
+                    <div className="mb-4 flex justify-between items-start flex-wrap gap-4">
+                        <div className="flex items-center gap-3 flex-wrap">
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                border: '2px solid var(--border-strong)',
+                                boxShadow: 'var(--glow-cyan)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'var(--panel-solid)',
+                                fontSize: '28px',
+                                flexShrink: 0
+                            }}>
+                                {profile?.profileImage ? (
+                                    <img src={`http://localhost:5000${profile.profileImage}`} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <span>{userRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}</span>
+                                )}
+                            </div>
+                            <div>
+                                <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    {profile?.name
+                                        ? `${profile.name}'s Dashboard`
+                                        : (userRole === 'teacher' ? '👨‍🏫 Teacher Dashboard' : '👨‍🎓 Student Dashboard')}
+                                </h1>
+                                <p className="text-lg text-secondary">{classroom.name}</p>
+                            </div>
                         </div>
-                        <p className="text-lg text-secondary mb-4">{classroom.name}</p>
-                        <div className="flex gap-4 flex-wrap">
-                            <span className="badge badge-primary">📍 Code: {classroom.classCode}</span>
-                            <span className="badge badge-success">✨ Active</span>
-                            <span className={`badge ${userRole === 'teacher' ? 'badge-info' : 'badge-secondary'}`}>
-                                {userRole === 'teacher' ? '🎓 Instructor' : '📚 Learner'}
-                            </span>
-                        </div>
+                        <button onClick={() => navigate('/edit-profile')} className="btn btn-ghost btn-sm">
+                            ✏️ Edit Profile
+                        </button>
+                    </div>
+                    <div className="flex gap-4 flex-wrap mb-4">
+                        <span className="badge badge-primary">📍 Code: {classroom.classCode}</span>
+                        <span className="badge badge-success">✨ Active</span>
+                        <span className={`badge ${userRole === 'teacher' ? 'badge-info' : 'badge-secondary'}`}>
+                            {userRole === 'teacher' ? '🎓 Instructor' : '📚 Learner'}
+                        </span>
                     </div>
                     {classroom.details && (
                         <p className="text-secondary text-lg italic border-l-2 border-blue-400 pl-4">{classroom.details}</p>
