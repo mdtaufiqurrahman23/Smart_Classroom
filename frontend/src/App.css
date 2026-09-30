@@ -615,6 +615,176 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
+   Cyber sidebar navigation (Classroom hub)
+   A vertical console instead of a button grid — never wraps into an
+   awkward extra row, no matter how many features get added.
+   ========================================================================== */
+
+.cyber-shell {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+
+.cyber-sidebar {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: sticky;
+  top: 24px;
+  background: var(--panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 20px 14px;
+  box-shadow: var(--glow-soft);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.cyber-sidebar-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  padding: 0 10px 8px;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.12);
+  margin-bottom: 8px;
+}
+
+.cyber-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cyber-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cyber-nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  border-radius: 0 4px 4px 0;
+  background: var(--gradient-primary);
+  transition: height 0.2s ease;
+}
+
+.cyber-nav-item:hover {
+  background: rgba(0, 240, 255, 0.06);
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.cyber-nav-item.active {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--border-strong);
+  color: #fff;
+  box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.08);
+}
+
+.cyber-nav-item.active::before {
+  height: 60%;
+  box-shadow: var(--glow-cyan);
+}
+
+.cyber-nav-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.35));
+}
+
+.cyber-main {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .cyber-shell {
+    flex-direction: column;
+  }
+
+  .cyber-sidebar {
+    flex: 0 0 auto;
+    position: static;
+    max-height: none;
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 18px;
+    padding: 14px;
+  }
+
+  .cyber-sidebar-section {
+    flex-direction: row;
+    flex-shrink: 0;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .cyber-sidebar-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    border-bottom: none;
+    border-right: 1px solid rgba(0, 240, 255, 0.12);
+    padding: 4px 8px 4px 0;
+    margin-bottom: 0;
+    margin-right: 4px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+
+  .cyber-nav-item {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .cyber-nav-item.active::before {
+    left: 50%;
+    top: auto;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .cyber-nav-item.active::before {
+    width: 60%;
+  }
+}
+
+/* ==========================================================================
    Dedicated Attendance Dashboard Design System Styles
    ========================================================================== */
 

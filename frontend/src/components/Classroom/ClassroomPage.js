@@ -174,7 +174,7 @@ const ClassroomPage = () => {
                 </div>
             </nav>
 
-            <div className="container" style={{ maxWidth: '1400px', marginTop: '30px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
+            <div className="container" style={{ maxWidth: '1500px', marginTop: '30px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
                 {/* Role-Based Header */}
                 <div className="glass-card-lg mb-8 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-600">
                     <div className="mb-4">
@@ -198,76 +198,71 @@ const ClassroomPage = () => {
                     )}
                 </div>
 
-                {/* Feature Button Grid */}
-                <div className="mb-8">
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-                        gap: '16px',
-                        width: '100%'
-                    }}>
-                        <button className={`feature-tab-btn ${activeTab === 'qr' ? 'active' : ''}`} onClick={() => setActiveTab('qr')}>
-                            <span className="feature-tab-icon">📱</span>
-                            QR Code
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'attendance' ? 'active' : ''}`} onClick={() => setActiveTab('attendance')}>
-                            <span className="feature-tab-icon">✅</span>
-                            Attendance
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'announcement' ? 'active' : ''}`} onClick={() => setActiveTab('announcement')}>
-                            <span className="feature-tab-icon">📢</span>
-                            Announcement
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'text-message' ? 'active' : ''}`} onClick={() => setActiveTab('text-message')}>
-                            <span className="feature-tab-icon">💬</span>
-                            Messages
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'assignment' ? 'active' : ''}`} onClick={() => setActiveTab('assignment')}>
-                            <span className="feature-tab-icon">✏️</span>
-                            Assignment
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'marksheet' ? 'active' : ''}`} onClick={() => setActiveTab('marksheet')}>
-                            <span className="feature-tab-icon">📊</span>
-                            Gradesheet
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'poll' ? 'active' : ''}`} onClick={() => setActiveTab('poll')}>
-                            <span className="feature-tab-icon">📊</span>
-                            Poll
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'leaderboard' ? 'active' : ''}`} onClick={() => setActiveTab('leaderboard')}>
-                            <span className="feature-tab-icon">🏆</span>
-                            Leaderboard
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'feedback' ? 'active' : ''}`} onClick={() => setActiveTab('feedback')}>
-                            <span className="feature-tab-icon">💡</span>
-                            Feedback
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'leave-requests' ? 'active' : ''}`} onClick={() => setActiveTab('leave-requests')}>
-                            <span className="feature-tab-icon">📋</span>
-                            Leaves
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'lesson-plan' ? 'active' : ''}`} onClick={() => setActiveTab('lesson-plan')}>
-                            <span className="feature-tab-icon">📅</span>
-                            Lesson Plan
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'qna' ? 'active' : ''}`} onClick={() => setActiveTab('qna')}>
-                            <span className="feature-tab-icon">❓</span>
-                            Topic Q&A
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'quiz' ? 'active' : ''}`} onClick={() => setActiveTab('quiz')}>
-                            <span className="feature-tab-icon">🧩</span>
-                            Topic Quiz
-                        </button>
-                        <button className={`feature-tab-btn ${activeTab === 'resources' ? 'active' : ''}`} onClick={() => setActiveTab('resources')}>
-                            <span className="feature-tab-icon">📁</span>
-                            Resources
-                        </button>
-                        {/* ADD YOUR <button> BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
-                    </div>
-                </div>
+                {/* Cyber shell: sidebar nav + main content, never wraps into rows */}
+                <div className="cyber-shell">
+                    <aside className="cyber-sidebar">
+                        <div className="cyber-sidebar-section">
+                            <p className="cyber-sidebar-label">Core</p>
+                            <button className={`cyber-nav-item ${activeTab === 'qr' ? 'active' : ''}`} onClick={() => setActiveTab('qr')}>
+                                <span className="cyber-nav-icon">📱</span><span>QR Code</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'attendance' ? 'active' : ''}`} onClick={() => setActiveTab('attendance')}>
+                                <span className="cyber-nav-icon">✅</span><span>Attendance</span>
+                            </button>
+                        </div>
+
+                        <div className="cyber-sidebar-section">
+                            <p className="cyber-sidebar-label">Communication</p>
+                            <button className={`cyber-nav-item ${activeTab === 'announcement' ? 'active' : ''}`} onClick={() => setActiveTab('announcement')}>
+                                <span className="cyber-nav-icon">📢</span><span>Announcement</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'text-message' ? 'active' : ''}`} onClick={() => setActiveTab('text-message')}>
+                                <span className="cyber-nav-icon">💬</span><span>Messages</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'feedback' ? 'active' : ''}`} onClick={() => setActiveTab('feedback')}>
+                                <span className="cyber-nav-icon">💡</span><span>Feedback</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'leave-requests' ? 'active' : ''}`} onClick={() => setActiveTab('leave-requests')}>
+                                <span className="cyber-nav-icon">📋</span><span>Leaves</span>
+                            </button>
+                        </div>
+
+                        <div className="cyber-sidebar-section">
+                            <p className="cyber-sidebar-label">Academics</p>
+                            <button className={`cyber-nav-item ${activeTab === 'assignment' ? 'active' : ''}`} onClick={() => setActiveTab('assignment')}>
+                                <span className="cyber-nav-icon">✏️</span><span>Assignment</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'marksheet' ? 'active' : ''}`} onClick={() => setActiveTab('marksheet')}>
+                                <span className="cyber-nav-icon">📊</span><span>Gradesheet</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'lesson-plan' ? 'active' : ''}`} onClick={() => setActiveTab('lesson-plan')}>
+                                <span className="cyber-nav-icon">📅</span><span>Lesson Plan</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'qna' ? 'active' : ''}`} onClick={() => setActiveTab('qna')}>
+                                <span className="cyber-nav-icon">❓</span><span>Topic Q&amp;A</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'quiz' ? 'active' : ''}`} onClick={() => setActiveTab('quiz')}>
+                                <span className="cyber-nav-icon">🧩</span><span>Topic Quiz</span>
+                            </button>
+                        </div>
+
+                        <div className="cyber-sidebar-section">
+                            <p className="cyber-sidebar-label">Engagement</p>
+                            <button className={`cyber-nav-item ${activeTab === 'poll' ? 'active' : ''}`} onClick={() => setActiveTab('poll')}>
+                                <span className="cyber-nav-icon">📊</span><span>Poll</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'leaderboard' ? 'active' : ''}`} onClick={() => setActiveTab('leaderboard')}>
+                                <span className="cyber-nav-icon">🏆</span><span>Leaderboard</span>
+                            </button>
+                            <button className={`cyber-nav-item ${activeTab === 'resources' ? 'active' : ''}`} onClick={() => setActiveTab('resources')}>
+                                <span className="cyber-nav-icon">📁</span><span>Resources</span>
+                            </button>
+                            {/* ADD YOUR cyber-nav-item BUTTON(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
+                        </div>
+                    </aside>
 
                 {/* Tab Content */}
-                <div className="glass-card-lg">
+                <div className="glass-card-lg cyber-main">
                     {activeTab === 'qr' && (
                         <div className="flex flex-col items-center justify-center py-12">
                             <QRAttendance classCode={classroom.classCode} userRole={userRole} onQRScanned={() => {
@@ -429,6 +424,7 @@ const ClassroomPage = () => {
                         </div>
                     )}
                     {/* ADD YOUR {activeTab === '...' && (...)} BLOCK(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
+                </div>
                 </div>
             </div>
         </div>
