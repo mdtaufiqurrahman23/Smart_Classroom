@@ -32,13 +32,18 @@ exports.register = async (req, res) => {  // ← async added
         return res.status(400).json({ error: 'Student ID already exists' });
       }
     }
-    
+
+    if (role === 'teacher' && !name) {
+      return res.status(400).json({ error: 'Teacher: name required' });
+    }
+
     // Create user (bcrypt hashes in pre-save hook)
-    const user = new User({ 
-      email, 
-      password, 
-      role, 
-      ...(role === 'student' && { name, studentId, department })
+    const user = new User({
+      email,
+      password,
+      role,
+      name,
+      ...(role === 'student' && { studentId, department })
     });
     
     console.log('💾 SAVING USER TO DB...');
@@ -124,6 +129,62 @@ exports.login = async (req, res) => {  // ← async added
     });
   } catch (error) {
     console.error('❌ LOGIN ERROR:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get the logged-in user's full profile (req.user is set by authMiddleware)
+exports.getProfile = async (req, res) => {
+  try {
+    const user = req.user;
+    res.json({
+      id: user._id,
+      email: user.email,
+      role: user.role,
+      name: user.name || '',
+      studentId: user.studentId || '',
+      department: user.department || '',
+      profileImage: user.profileImage || '',
+      phone: user.phone || '',
+      bio: user.bio || ''
+    });
+  } catch (error) {
+    console.error('❌ GET PROFILE ERROR:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Update the logged-in user's profile — name, phone, bio, department, and
+// optionally a new profile image (multipart, handled by upload middleware).
+exports.updateProfile = async (req, res) => {
+  try {
+    const user = req.user;
+    const { name, phone, bio, department } = req.body;
+
+    if (name !== undefined) user.name = name;
+    if (phone !== undefined) user.phone = phone;
+    if (bio !== undefined) user.bio = bio;
+    if (department !== undefined && user.role === 'student') user.department = department.toUpperCase();
+    if (req.file) user.profileImage = `/uploads/${req.file.filename}`;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name || '',
+        studentId: user.studentId || '',
+        department: user.department || '',
+        profileImage: user.profileImage || '',
+        phone: user.phone || '',
+        bio: user.bio || ''
+      }
+    });
+  } catch (error) {
+    console.error('❌ UPDATE PROFILE ERROR:', error);
     res.status(500).json({ error: error.message });
   }
 };

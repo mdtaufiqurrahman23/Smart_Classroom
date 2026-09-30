@@ -26,10 +26,13 @@ const userSchema = new mongoose.Schema({
     sparse: true,
     unique: true
   },
-  department: { 
-    type: String, 
-    uppercase: true 
-  }
+  department: {
+    type: String,
+    uppercase: true
+  },
+  profileImage: { type: String, default: '' },
+  phone: { type: String, default: '' },
+  bio: { type: String, default: '', maxlength: 300 }
 }, { timestamps: true });
 
 // FIXED: Simple async hash - NO next() issues

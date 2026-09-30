@@ -1,11 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const TeacherDashboard = () => {
     const [classrooms, setClassrooms] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [profile, setProfile] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get('http://localhost:5000/api/auth/profile', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setProfile(response.data);
+            } catch (err) {
+                console.error('Error fetching profile:', err);
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     useEffect(() => {
         const fetchClassrooms = async () => {
@@ -102,35 +120,63 @@ const TeacherDashboard = () => {
             <div className="container" style={{ maxWidth: '1200px', marginTop: '40px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
                 {/* Header */}
                 <div className="glass-card-lg mb-12">
-                    <div className="flex-between">
-                        <div>
-                            <h1 className="text-5xl font-bold mb-2" style={{
-                                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text'
-                            }}>👨‍🏫 Teacher Dashboard</h1>
-                            <p className="text-secondary text-lg">Manage your classrooms and engage with students</p>
+                    <div className="flex-between" style={{ flexWrap: 'wrap', gap: '20px' }}>
+                        <div className="flex items-center gap-4" style={{ flexWrap: 'wrap' }}>
+                            <div style={{
+                                width: '72px',
+                                height: '72px',
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                border: '2px solid var(--border-strong)',
+                                boxShadow: 'var(--glow-cyan)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'var(--panel-solid)',
+                                fontSize: '32px',
+                                flexShrink: 0
+                            }}>
+                                {profile?.profileImage ? (
+                                    <img src={`http://localhost:5000${profile.profileImage}`} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <span>👨‍🏫</span>
+                                )}
+                            </div>
+                            <div>
+                                <h1 className="text-5xl font-bold mb-2" style={{
+                                    background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text'
+                                }}>{profile?.name ? `${profile.name}'s Dashboard` : '👨‍🏫 Teacher Dashboard'}</h1>
+                                <p className="text-secondary text-lg">{profile?.email}</p>
+                                {profile?.bio && <p className="text-secondary" style={{ marginTop: '4px' }}>{profile.bio}</p>}
+                            </div>
                         </div>
-                        <button 
-                            onClick={handleCreateClass}
-                            style={{
-                                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
-                                color: 'white',
-                                border: 'none',
-                                padding: '18px 35px',
-                                borderRadius: '25px',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                fontSize: '18px',
-                                fontWeight: 'bold',
-                                boxShadow: '0 8px 20px rgba(0, 240, 255, 0.3)'
-                            }}
-                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
-                            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                        >
-                            ➕ Create New Class
-                        </button>
+                        <div className="flex items-center gap-3" style={{ flexWrap: 'wrap' }}>
+                            <button onClick={() => navigate('/edit-profile')} className="btn btn-ghost">
+                                ✏️ Edit Profile
+                            </button>
+                            <button
+                                onClick={handleCreateClass}
+                                style={{
+                                    background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '18px 35px',
+                                    borderRadius: '25px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    boxShadow: '0 8px 20px rgba(0, 240, 255, 0.3)'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+                                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                            >
+                                ➕ Create New Class
+                            </button>
+                        </div>
                     </div>
                 </div>
 

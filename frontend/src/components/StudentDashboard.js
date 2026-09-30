@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function StudentDashboard() {
   const { classCode } = useParams();
@@ -11,6 +12,24 @@ function StudentDashboard() {
   const [joinError, setJoinError] = useState('');
   const [joinedClasses, setJoinedClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(classCode || null);
+  const [profile, setProfile] = useState(null);
+
+  // Fetch the logged-in student's profile
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/api/auth/profile', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setProfile(response.data);
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   // Fetch joined classes on component mount
   useEffect(() => {
@@ -151,6 +170,7 @@ function StudentDashboard() {
             📚 Smart Class
           </div>
           <ul className="navbar-items">
+            <li><button onClick={() => navigate('/edit-profile')} className="btn btn-ghost btn-sm">✏️ Edit Profile</button></li>
             <li><button onClick={handleLogout} className="btn btn-secondary btn-sm">Logout</button></li>
           </ul>
         </nav>
@@ -162,7 +182,7 @@ function StudentDashboard() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
-            }}>Welcome, Student! 👋</h1>
+            }}>Welcome, {profile?.name || 'Student'}! 👋</h1>
             <p className="text-secondary text-lg mb-8">Join your first classroom to get started</p>
 
             {/* Join Class Form */}
@@ -247,29 +267,57 @@ function StudentDashboard() {
           📚 Smart Class
         </div>
         <ul className="navbar-items">
+          <li><button onClick={() => navigate('/edit-profile')} className="btn btn-ghost btn-sm">✏️ Edit Profile</button></li>
           <li><button onClick={handleLogout} className="btn btn-secondary btn-sm">Logout</button></li>
         </ul>
       </nav>
 
       <div className="container" style={{ maxWidth: '1200px', marginTop: '30px', position: 'relative', zIndex: 1 }}>
         <div className="glass-card-lg">
-          <div className="flex-between mb-8">
-            <div>
-              <h1 className="text-4xl font-bold mb-2" style={{
-                background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>Student Dashboard</h1>
-              {classroom && (
-                <div>
-                  <h2 className="text-2xl font-semibold text-accent mb-2">{classroom.name}</h2>
-                  <div className="flex gap-6 text-secondary">
-                    <span className="badge badge-primary">Code: {classroom.classCode}</span>
-                    {classroom.teacher && <span className="badge">👨‍🏫 {classroom.teacher.name || classroom.teacher.email}</span>}
+          <div className="flex-between mb-8" style={{ flexWrap: 'wrap', gap: '20px' }}>
+            <div className="flex items-center gap-4" style={{ flexWrap: 'wrap' }}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '2px solid var(--border-strong)',
+                boxShadow: 'var(--glow-cyan)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'var(--panel-solid)',
+                fontSize: '28px',
+                flexShrink: 0
+              }}>
+                {profile?.profileImage ? (
+                  <img src={`http://localhost:5000${profile.profileImage}`} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <span>🎓</span>
+                )}
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold mb-2" style={{
+                  background: 'linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #8b5cf6 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>{profile?.name ? `${profile.name}'s Dashboard` : 'Student Dashboard'}</h1>
+                <p className="text-secondary" style={{ marginBottom: '8px' }}>
+                  {profile?.email}
+                  {profile?.department && ` · ${profile.department}`}
+                  {profile?.studentId && ` · ID: ${profile.studentId}`}
+                </p>
+                {classroom && (
+                  <div>
+                    <h2 className="text-2xl font-semibold text-accent mb-2">{classroom.name}</h2>
+                    <div className="flex gap-6 text-secondary">
+                      <span className="badge badge-primary">Code: {classroom.classCode}</span>
+                      {classroom.teacher && <span className="badge">👨‍🏫 {classroom.teacher.name || classroom.teacher.email}</span>}
+                    </div>
                   </div>
-                </div>
               )}
+              </div>
             </div>
           </div>
 
