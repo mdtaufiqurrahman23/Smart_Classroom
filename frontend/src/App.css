@@ -141,43 +141,10 @@ a {
 
 .page-wrapper {
   background:
-    radial-gradient(ellipse 80% 60% at 15% -10%, rgba(139, 92, 246, 0.35), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 90% 10%, rgba(0, 240, 255, 0.25), transparent 55%),
-    radial-gradient(ellipse 60% 50% at 50% 110%, rgba(255, 46, 230, 0.2), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 15% -10%, rgba(139, 92, 246, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 90% 10%, rgba(0, 240, 255, 0.14), transparent 55%),
     linear-gradient(180deg, var(--void-deep) 0%, var(--void) 50%, var(--void-deep) 100%) !important;
   position: relative !important;
-  isolation: isolate;
-}
-
-.page-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(0, 240, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 240, 255, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
-  animation: grid-drift 40s linear infinite;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 40%, transparent 100%);
-}
-
-.page-wrapper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(3px 3px at 10% 20%, rgba(0, 240, 255, 0.9), transparent),
-    radial-gradient(2px 2px at 85% 15%, rgba(255, 46, 230, 0.8), transparent),
-    radial-gradient(2px 2px at 70% 75%, rgba(139, 92, 246, 0.9), transparent),
-    radial-gradient(3px 3px at 25% 85%, rgba(0, 240, 255, 0.7), transparent),
-    radial-gradient(2px 2px at 50% 45%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(2px 2px at 92% 60%, rgba(139, 92, 246, 0.7), transparent);
-  animation: particle-float 12s ease-in-out infinite;
 }
 
 .full-screen-container {
@@ -615,173 +582,71 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   Cyber sidebar navigation (Classroom hub)
-   A vertical console instead of a button grid — never wraps into an
-   awkward extra row, no matter how many features get added.
+   Cyber tab bar (Classroom hub)
+   A single-row, horizontally scrollable strip — never wraps into an
+   awkward extra row no matter how many features get added, and every
+   button has a solid, clearly visible background at rest (not just on
+   hover), so it always reads as a button.
    ========================================================================== */
 
-.cyber-shell {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  width: 100%;
-}
-
-.cyber-sidebar {
-  flex: 0 0 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  position: sticky;
-  top: 24px;
-  background: var(--panel);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-soft);
-  border-radius: 20px;
-  padding: 20px 14px;
-  box-shadow: var(--glow-soft);
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
-}
-
-.cyber-sidebar-label {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-faint);
-  padding: 0 10px 8px;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.12);
-  margin-bottom: 8px;
-}
-
-.cyber-sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.cyber-nav-item {
-  position: relative;
+.cyber-tabbar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  padding: 11px 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 14px;
+  margin-bottom: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  box-shadow: var(--glow-soft);
+}
+
+.cyber-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px 20px;
   border-radius: 12px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-dim);
+  border: 1px solid var(--border-soft);
+  background: rgba(30, 27, 66, 0.85);
+  color: var(--text);
   font-family: var(--font-body);
-  font-size: 14.5px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.01em;
   cursor: pointer;
-  text-align: left;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
   white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
-.cyber-nav-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 0;
-  border-radius: 0 4px 4px 0;
-  background: var(--gradient-primary);
-  transition: height 0.2s ease;
-}
-
-.cyber-nav-item:hover {
-  background: rgba(0, 240, 255, 0.06);
-  color: #fff;
-  transform: translateX(2px);
-}
-
-.cyber-nav-item.active {
-  background: rgba(0, 240, 255, 0.1);
+.cyber-tab:hover {
+  background: rgba(0, 240, 255, 0.16);
   border-color: var(--border-strong);
   color: #fff;
-  box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.08);
 }
 
-.cyber-nav-item.active::before {
-  height: 60%;
-  box-shadow: var(--glow-cyan);
+.cyber-tab.active {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: #05030f;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(0, 240, 255, 0.35);
 }
 
-.cyber-nav-icon {
-  font-size: 18px;
+.cyber-tab-icon {
+  font-size: 16px;
+}
+
+.cyber-tab-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.12);
   flex-shrink: 0;
-  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.35));
-}
-
-.cyber-main {
-  flex: 1 1 0%;
-  min-width: 0;
-}
-
-@media (max-width: 900px) {
-  .cyber-shell {
-    flex-direction: column;
-  }
-
-  .cyber-sidebar {
-    flex: 0 0 auto;
-    position: static;
-    max-height: none;
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 18px;
-    padding: 14px;
-  }
-
-  .cyber-sidebar-section {
-    flex-direction: row;
-    flex-shrink: 0;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .cyber-sidebar-label {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    border-bottom: none;
-    border-right: 1px solid rgba(0, 240, 255, 0.12);
-    padding: 4px 8px 4px 0;
-    margin-bottom: 0;
-    margin-right: 4px;
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-  }
-
-  .cyber-nav-item {
-    width: auto;
-    flex-shrink: 0;
-  }
-
-  .cyber-nav-item.active::before {
-    left: 50%;
-    top: auto;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 0;
-    height: 3px;
-    border-radius: 4px 4px 0 0;
-  }
-
-  .cyber-nav-item.active::before {
-    width: 60%;
-  }
+  margin: 2px 2px;
 }
 
 /* ==========================================================================
