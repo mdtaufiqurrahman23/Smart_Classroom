@@ -20,6 +20,7 @@ const lessonPlanRoutes = require('./routes/lessonPlanRoutes');
 const topicWiseQnARoutes = require('./routes/topicWiseQnARoutes');
 const topicWiseQuizRoutes = require('./routes/topicWiseQuizRoutes');
 const resourceRoutes = require('./routes/resourceRoutes');
+const adminRoutes = require('./routes/admin');
 // ADD YOUR ROUTE IMPORT ABOVE THIS LINE
 
 const app = express();
@@ -79,6 +80,9 @@ app.use('/api/topic-wise-quiz', topicWiseQuizRoutes);
 
 // Module 4 Engagement & Resources
 app.use('/api/resources', resourceRoutes);
+
+// Administration
+app.use('/api/admin', adminRoutes);
 // ADD YOUR ROUTE REGISTRATION ABOVE THIS LINE
 
 // Health check route

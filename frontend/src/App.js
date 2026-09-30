@@ -15,6 +15,8 @@ import LeaveRequestForm from './components/LeaveRequestForm';
 import CreateQuiz from './components/CreateQuiz';
 import ResourceUpload from './components/ResourceUpload';
 import EditProfile from './components/EditProfile';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
 // ADD YOUR PAGE IMPORT ABOVE THIS LINE (see your README's "Turn it on" section)
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
         <Route path="/create-quiz" element={<CreateQuiz />} />
         <Route path="/resource-upload" element={<ResourceUpload />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         {/* ADD YOUR PAGE ROUTE ABOVE THIS LINE (see your README's "Turn it on" section) */}
       </Routes>
     </Router>

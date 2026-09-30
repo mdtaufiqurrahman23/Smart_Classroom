@@ -123,6 +123,14 @@ function Home() {
             </p>
           </button>
         </div>
+
+        <button
+          onClick={() => navigate('/admin-login')}
+          className="btn btn-ghost btn-sm"
+          style={{ marginTop: '40px' }}
+        >
+          🛡️ Administration Login
+        </button>
       </div>
     </div>
   );

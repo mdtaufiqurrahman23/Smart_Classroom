@@ -14,14 +14,31 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password required'], 
     minlength: 6 
   },
-  role: { 
-    type: String, 
-    enum: ['student', 'teacher'],
+  role: {
+    type: String,
+    enum: ['student', 'teacher', 'admin'],
     default: 'student'
   },
+  // Admin-approval workflow: students/teachers register as 'pending' and
+  // can't log in until an admin approves them. Admin accounts are always
+  // 'active' (there's no request/approval step for admin itself).
+  status: {
+    type: String,
+    enum: ['pending', 'active', 'rejected'],
+    default: 'pending'
+  },
+  // Assigned by the admin at approval time — the "validity" ID that proves
+  // this account was reviewed and accepted, separate from any ID the
+  // person claims to have when they register.
+  uniqueId: {
+    type: String,
+    uppercase: true,
+    sparse: true,
+    unique: true
+  },
   name: String,
-  studentId: { 
-    type: String, 
+  studentId: {
+    type: String,
     uppercase: true,
     sparse: true,
     unique: true

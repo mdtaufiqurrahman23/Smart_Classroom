@@ -15,13 +15,18 @@ exports.register = async (req, res) => {  // ← async added
     if (!email || !password || !role) {
       return res.status(400).json({ error: 'Email, password, role required' });
     }
-    
+
+    // Admin accounts are seeded directly, never created through public signup
+    if (role === 'admin') {
+      return res.status(403).json({ error: 'Admin accounts cannot be self-registered' });
+    }
+
     // Check if email exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already registered' });
     }
-    
+
     if (role === 'student') {
       if (!name || !studentId || !department) {
         return res.status(400).json({ error: 'Student: name, ID, department required' });
@@ -37,36 +42,26 @@ exports.register = async (req, res) => {  // ← async added
       return res.status(400).json({ error: 'Teacher: name required' });
     }
 
-    // Create user (bcrypt hashes in pre-save hook)
+    // Create user (bcrypt hashes in pre-save hook). Students/teachers start
+    // as 'pending' — an admin has to approve the request before they can log in.
     const user = new User({
       email,
       password,
       role,
       name,
+      status: 'pending',
       ...(role === 'student' && { studentId, department })
     });
-    
+
     console.log('💾 SAVING USER TO DB...');
     await user.save();
-    console.log('✅ USER SAVED SUCCESSFULLY:', user._id, 'Email:', user.email);
-    
-    // Verify user can be found immediately
-    const verifyUser = await User.findOne({ email });
-    console.log('🔍 VERIFICATION - User found in DB:', verifyUser ? 'YES' : 'NO');
-    if (verifyUser && verifyUser.password) {
-      console.log('🔒 Password stored in DB:', verifyUser.password.substring(0, 20) + '...');
-    }
-    
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-    
-    res.status(201).json({ 
-      success: true, 
-      token, 
-      user: { id: user._id, email, role } 
+    console.log('✅ USER SAVED SUCCESSFULLY (pending admin approval):', user._id, 'Email:', user.email);
+
+    // No token issued — the account isn't usable until an admin approves it.
+    res.status(201).json({
+      success: true,
+      pending: true,
+      message: 'Registration submitted! An admin will review your request and activate your account.'
     });
   } catch (error) {
     console.error('❌ SIGNUP ERROR:', error.message);
@@ -126,6 +121,15 @@ exports.login = async (req, res) => {  // ← async added
       });
     }
 
+    // Students/teachers can't log in until an admin approves their request.
+    if (user.role !== 'admin' && user.status !== 'active') {
+      console.log(`❌ NOT ACTIVE: account status is '${user.status}'`);
+      if (user.status === 'rejected') {
+        return res.status(403).json({ error: 'Your registration was rejected. Please contact the administration.' });
+      }
+      return res.status(403).json({ error: 'Your registration is still pending admin approval.' });
+    }
+
     const token = jwt.sign(
       { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
@@ -151,6 +155,8 @@ exports.getProfile = async (req, res) => {
       id: user._id,
       email: user.email,
       role: user.role,
+      status: user.status,
+      uniqueId: user.uniqueId || '',
       name: user.name || '',
       studentId: user.studentId || '',
       department: user.department || '',

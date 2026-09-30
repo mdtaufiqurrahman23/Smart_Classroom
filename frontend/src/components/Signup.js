@@ -11,6 +11,7 @@ function Signup() {
   const [department, setDepartment] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -20,6 +21,9 @@ function Signup() {
     if (password.length < 6) return 'Password must be 6+ characters';
     if (role === 'student' && (!name || !studentId || !department)) {
       return 'All student fields required';
+    }
+    if (role === 'teacher' && !name) {
+      return 'Name is required';
     }
     return null;
   };
@@ -38,15 +42,14 @@ function Signup() {
 
     const userData = role === 'student'
       ? { email, password, role, name, studentId, department }
-      : { email, password, role };
+      : { email, password, role, name };
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', userData, {
+      await axios.post('http://localhost:5000/api/auth/register', userData, {
         headers: { 'Content-Type': 'application/json' }
       });
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', role); // Store role for dashboard routing
-      navigate(role === 'student' ? '/student-dashboard' : '/teacher-dashboard');
+      // No token, no auto-login — an admin has to approve this request first.
+      setSubmitted(true);
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Signup failed. Try again.';
       setError(errorMsg);
@@ -112,6 +115,20 @@ function Signup() {
             <p className="text-secondary mt-2">Join Smart Attendance & Lecture Companion</p>
           </div>
 
+          {submitted ? (
+            <div className="text-center">
+              <div style={{ fontSize: '4rem', marginBottom: '16px' }}>📨</div>
+              <h2 className="text-2xl font-bold mb-4">Registration Submitted!</h2>
+              <p className="text-secondary mb-6">
+                An admin will review your request and activate your account. You'll be able to log in
+                once it's approved.
+              </p>
+              <button onClick={() => navigate('/')} className="btn btn-primary">
+                ← Back to Home
+              </button>
+            </div>
+          ) : (
+          <>
           {/* Role Selection */}
           {!role && (
             <div className="flex flex-row gap-4 mb-8" style={{ justifyContent: 'center' }}>
@@ -274,6 +291,17 @@ function Signup() {
           {role === 'teacher' && (
             <form onSubmit={handleSignup} className="space-y-4">
               <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  maxLength={50}
+                />
+              </div>
+              <div className="form-group">
                 <label className="form-label">Email</label>
                 <input
                   type="email"
@@ -333,6 +361,8 @@ function Signup() {
                 ← Back to role selection
               </button>
             </form>
+          )}
+          </>
           )}
         </div>
       </div>
