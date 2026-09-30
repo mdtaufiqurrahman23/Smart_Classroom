@@ -177,30 +177,20 @@ const ClassroomPage = () => {
             <div className="container" style={{ maxWidth: '1400px', marginTop: '30px', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
                 {/* Role-Based Header */}
                 <div className="glass-card-lg mb-8 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-600">
-                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
-                        <div>
-                            <div className="flex items-center gap-3 mb-4">
-                                <span className={`text-4xl ${userRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}`}></span>
-                                <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                    {userRole === 'teacher' ? '👨‍🏫 Teacher Dashboard' : '👨‍🎓 Student Dashboard'}
-                                </h1>
-                            </div>
-                            <p className="text-lg text-secondary mb-4">{classroom.name}</p>
-                            <div className="flex gap-4 flex-wrap">
-                                <span className="badge badge-primary">📍 Code: {classroom.classCode}</span>
-                                <span className="badge badge-success">✨ Active</span>
-                                <span className={`badge ${userRole === 'teacher' ? 'badge-info' : 'badge-secondary'}`}>
-                                    {userRole === 'teacher' ? '🎓 Instructor' : '📚 Learner'}
-                                </span>
-                            </div>
+                    <div className="mb-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className={`text-4xl ${userRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}`}></span>
+                            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                {userRole === 'teacher' ? '👨‍🏫 Teacher Dashboard' : '👨‍🎓 Student Dashboard'}
+                            </h1>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <button onClick={handleBackDashboard} className="btn btn-secondary btn-sm">
-                                ← Dashboard
-                            </button>
-                            <button onClick={handleLogout} className="btn btn-sm" style={{ backgroundColor: '#ef4444', color: '#ffffff', border: 'none', borderRadius: '8px', padding: '8px 16px', fontWeight: 'bold', cursor: 'pointer' }}>
-                                🚪 Logout
-                            </button>
+                        <p className="text-lg text-secondary mb-4">{classroom.name}</p>
+                        <div className="flex gap-4 flex-wrap">
+                            <span className="badge badge-primary">📍 Code: {classroom.classCode}</span>
+                            <span className="badge badge-success">✨ Active</span>
+                            <span className={`badge ${userRole === 'teacher' ? 'badge-info' : 'badge-secondary'}`}>
+                                {userRole === 'teacher' ? '🎓 Instructor' : '📚 Learner'}
+                            </span>
                         </div>
                     </div>
                     {classroom.details && (
