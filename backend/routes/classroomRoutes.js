@@ -1,6 +1,6 @@
 // backend/routes/classroomRoutes.js
 const express = require('express');
-const { createClassroom, getClassrooms, getClassroomByCode, getClassroomById, joinClassroom, getTeacherClasses, getStudentClasses } = require('../controllers/classroomController');
+const { createClassroom, getClassrooms, getClassroomByCode, getClassroomById, joinClassroom, getTeacherClasses, getStudentClasses, removeStudent } = require('../controllers/classroomController');
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
@@ -24,5 +24,8 @@ router.post('/student/join', authMiddleware, joinClassroom);
 
 // Route to get all classes for a student
 router.get('/student/my-classes', authMiddleware, getStudentClasses);
+
+// Route for a teacher to remove a student from their classroom
+router.delete('/:classCode/students/:studentId', authMiddleware, removeStudent);
 
 module.exports = router;

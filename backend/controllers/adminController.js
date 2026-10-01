@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Classroom = require('../models/Classroom');
 
 // Generate a sequential-looking unique ID per role, e.g. STU-00001, TCH-00001.
 // Used as a suggested default for students (admin can overwrite it) and as
@@ -84,6 +85,32 @@ exports.approveUser = async (req, res) => {
     });
   } catch (error) {
     console.error('❌ APPROVE USER ERROR:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Permanently remove a student or teacher account. Removing a teacher also
+// removes the classrooms they own (there's no one left to run them);
+// removing a student just unenrolls them from whatever classes they joined.
+exports.deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (user.role === 'admin') {
+      return res.status(403).json({ error: 'Admin accounts cannot be deleted' });
+    }
+
+    if (user.role === 'teacher') {
+      await Classroom.deleteMany({ teacher: user._id });
+    } else if (user.role === 'student') {
+      await Classroom.updateMany({ students: user._id }, { $pull: { students: user._id } });
+    }
+
+    await User.findByIdAndDelete(user._id);
+
+    res.json({ success: true, message: `${user.role} account removed` });
+  } catch (error) {
+    console.error('❌ DELETE USER ERROR:', error);
     res.status(500).json({ error: error.message });
   }
 };

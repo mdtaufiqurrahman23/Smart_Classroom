@@ -80,6 +80,19 @@ function AdminDashboard() {
     }
   };
 
+  const handleDelete = async (user) => {
+    if (!window.confirm(`Permanently remove ${user.name || user.email} (${user.role})? This cannot be undone.`)) return;
+    setActioningId(user._id);
+    try {
+      await axios.delete(`http://localhost:5000/api/admin/users/${user._id}`, { headers: authHeader() });
+      await fetchData();
+    } catch (err) {
+      alert(err.response?.data?.error || 'Failed to remove account');
+    } finally {
+      setActioningId(null);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
@@ -182,6 +195,7 @@ function AdminDashboard() {
                       <th>Role</th>
                       <th>Status</th>
                       <th>Unique ID</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -196,6 +210,15 @@ function AdminDashboard() {
                           </span>
                         </td>
                         <td>{u.uniqueId || '—'}</td>
+                        <td>
+                          <button
+                            onClick={() => handleDelete(u)}
+                            disabled={actioningId === u._id}
+                            className="btn btn-danger btn-sm"
+                          >
+                            🗑️ Remove
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

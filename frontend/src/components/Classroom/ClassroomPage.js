@@ -150,6 +150,30 @@ const ClassroomPage = () => {
         setResourceRefreshTrigger(prev => prev + 1);
     };
 
+    const handleRemoveStudent = async (studentId, studentName) => {
+        if (!window.confirm(`Remove ${studentName || 'this student'} from the class?`)) return;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5000/api/classrooms/${classroom.classCode}/students/${studentId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert(errorData.message || 'Failed to remove student');
+                return;
+            }
+            // Update the roster locally instead of refetching the whole classroom
+            setClassroom((prev) => ({
+                ...prev,
+                students: prev.students.filter((s) => s._id !== studentId)
+            }));
+        } catch (err) {
+            console.error('Error removing student:', err);
+            alert('Failed to remove student');
+        }
+    };
+
     return (
         <div className="page-wrapper min-h-screen" style={{
             background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f172a 50%, #1e293b 75%, #0f172a 100%)',
@@ -281,6 +305,14 @@ const ClassroomPage = () => {
                     <button className={`cyber-tab ${activeTab === 'resources' ? 'active' : ''}`} onClick={() => setActiveTab('resources')}>
                         <span className="cyber-tab-icon">📁</span>Resources
                     </button>
+                    {userRole === 'teacher' && (
+                        <>
+                            <div className="cyber-tab-divider" />
+                            <button className={`cyber-tab ${activeTab === 'students' ? 'active' : ''}`} onClick={() => setActiveTab('students')}>
+                                <span className="cyber-tab-icon">👥</span>Students
+                            </button>
+                        </>
+                    )}
                     {/* ADD YOUR cyber-tab BUTTON(S) ABOVE THIS LINE (see your README's "Turn it on" section) */}
                 </div>
 
@@ -442,6 +474,35 @@ const ClassroomPage = () => {
                             {userRole === 'student' && (
                                 <div className="border-t border-white/20 pt-8">
                                     <RequestResource classCode={classroom.classCode} />
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    {activeTab === 'students' && userRole === 'teacher' && (
+                        <div>
+                            <h3 className="text-2xl font-bold mb-6">👥 Enrolled Students ({classroom.students.length})</h3>
+                            {classroom.students.length === 0 ? (
+                                <p className="text-secondary">No students have joined this class yet.</p>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {classroom.students.map((student) => (
+                                        <div
+                                            key={student._id}
+                                            className="glass-card-sm"
+                                            style={{ textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}
+                                        >
+                                            <div>
+                                                <p className="font-bold">🎓 {student.name || '(no name)'}</p>
+                                                <p className="text-secondary text-sm">{student.email}</p>
+                                            </div>
+                                            <button
+                                                onClick={() => handleRemoveStudent(student._id, student.name)}
+                                                className="btn btn-danger btn-sm"
+                                            >
+                                                🗑️ Remove
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>

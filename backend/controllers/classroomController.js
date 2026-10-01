@@ -141,6 +141,36 @@ exports.getTeacherClasses = async (req, res) => {
   }
 };
 
+// Teacher removes a student from their classroom
+exports.removeStudent = async (req, res) => {
+  try {
+    const { classCode, studentId } = req.params;
+    const teacherId = req.user._id;
+
+    const classroom = await Classroom.findOne({ classCode: classCode.toUpperCase() });
+    if (!classroom) {
+      return res.status(404).json({ message: 'Classroom not found' });
+    }
+
+    if (classroom.teacher.toString() !== teacherId.toString()) {
+      return res.status(403).json({ message: 'You do not have access to this classroom' });
+    }
+
+    const wasEnrolled = classroom.students.some((s) => s.toString() === studentId);
+    if (!wasEnrolled) {
+      return res.status(404).json({ message: 'Student is not enrolled in this classroom' });
+    }
+
+    classroom.students = classroom.students.filter((s) => s.toString() !== studentId);
+    await classroom.save();
+
+    res.status(200).json({ message: 'Student removed from classroom' });
+  } catch (error) {
+    console.error('Error removing student:', error);
+    res.status(500).json({ message: 'Failed to remove student' });
+  }
+};
+
 // Get all classrooms for a student
 exports.getStudentClasses = async (req, res) => {
   try {
